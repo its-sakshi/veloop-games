@@ -875,6 +875,406 @@ function BladeMaster({ onBack }) {
             animation-duration: 1ms;
           }
         }
+
+        /* VELOOP charcoal + lime visual refresh */
+        .bm-page {
+          color: #f4f5ef;
+          background:
+            radial-gradient(ellipse at 50% 0%, #292e23 0%, transparent 44%),
+            linear-gradient(180deg, #151713 0%, #0d0f0c 78%);
+          font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .bm-shell { max-width: 720px; }
+
+        .bm-header { margin-bottom: 22px; }
+
+        .bm-home,
+        .bm-secondary {
+          border: 1px solid #3a4033;
+          border-radius: 12px;
+          background: #1b1e18;
+          color: #f2f4ec;
+          transition: background .18s ease, border-color .18s ease, transform .18s ease;
+        }
+
+        .bm-home:hover,
+        .bm-secondary:hover {
+          background: #262b20;
+          border-color: #c5f946;
+          transform: translateY(-1px);
+        }
+
+        .bm-logo {
+          color: #f4f5ef;
+          text-shadow: none;
+          letter-spacing: -1.3px;
+        }
+
+        .bm-logo span,
+        .bm-intro-title span { color: #c5f946; }
+
+        .bm-stage {
+          border-color: #414b2b;
+          color: #d8ff83;
+          background: #202619;
+          border-radius: 999px;
+          letter-spacing: .8px;
+        }
+
+        .bm-stats { gap: 12px; margin: 16px 0 18px; }
+
+        .bm-stat {
+          padding: 15px 10px;
+          border: 1px solid #30352b;
+          border-radius: 16px;
+          background: linear-gradient(145deg, #20231c, #171913);
+          box-shadow: inset 0 1px #ffffff08, 0 8px 24px #0002;
+        }
+
+        .bm-stat small {
+          color: #aab19f;
+          letter-spacing: 1.1px;
+        }
+
+        .bm-stat strong { color: #f7f8f3; }
+        .bm-warning { color: #ff786e !important; }
+
+        .bm-hint {
+          color: #b7bcae;
+          line-height: 1.7;
+        }
+
+        .bm-arena {
+          max-width: 480px;
+          margin: 20px auto;
+          border: 1px solid #3b4231;
+          border-radius: 24px;
+          background:
+            radial-gradient(ellipse at 50% 32%, #292e21 0%, #171a14 54%, #10120f 100%);
+          box-shadow: inset 0 0 55px #0006, 0 18px 45px #0005;
+        }
+
+        .bm-target {
+          box-shadow:
+            0 0 0 3px #353a2d,
+            0 0 0 6px #11130f,
+            0 0 32px #c5f94620,
+            inset 0 0 0 3px #f3c86a,
+            inset 0 0 20px #632c0d;
+        }
+
+        .bm-message {
+          min-height: 26px;
+          color: #d7fb86;
+          font-size: 13px;
+          letter-spacing: .1px;
+        }
+
+        .bm-throw,
+        .bm-play {
+          width: min(100%, 360px);
+          min-height: 56px;
+          border: 1px solid #d7ff78;
+          border-radius: 14px;
+          color: #171a11;
+          background: linear-gradient(135deg, #d3ff65, #b4e83c);
+          box-shadow: 0 8px 24px #b8ed3c20, inset 0 1px #ffffff8a;
+          font-size: 15px;
+          font-weight: 950;
+          letter-spacing: .8px;
+          transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
+
+        .bm-throw:hover:not(:disabled),
+        .bm-play:hover {
+          transform: translateY(-2px);
+          filter: brightness(1.04);
+          box-shadow: 0 12px 30px #b8ed3c30, inset 0 1px #ffffff8a;
+        }
+
+        .bm-throw:active:not(:disabled),
+        .bm-play:active { transform: translateY(0); }
+
+        .bm-throw:disabled {
+          border-color: #41473a;
+          background: #2a2e25;
+          color: #8d9581;
+          box-shadow: none;
+        }
+
+        .bm-intro-title {
+          color: #f4f5ef;
+          text-shadow: none;
+          letter-spacing: -1.8px;
+        }
+
+        .bm-tagline {
+          color: #b8c0a9;
+          letter-spacing: 1.8px;
+        }
+
+        .bm-panel {
+          border: 1px solid #353b2d;
+          border-radius: 22px;
+          background: linear-gradient(145deg, #20231c, #151711);
+          box-shadow: 0 16px 38px #0003, inset 0 1px #ffffff08;
+        }
+
+        .bm-features { gap: 12px; }
+
+        .bm-feature {
+          border: 1px solid #363d2b;
+          border-radius: 14px;
+          background: #1a1d16;
+          color: #e0f5ad;
+          line-height: 1.45;
+        }
+
+        .bm-feature strong { color: #c5f946; }
+        .bm-xp { color: #c5f946; text-shadow: 0 0 18px #b8ed3c22; }
+        .bm-result { color: #d5ff70; text-shadow: 0 0 24px #b8ed3c22; }
+
+        .bm-queue-knife::before { background: #c5f946; }
+        .bm-queue-knife::after { background: #647b2b; }
+
+        .bm-home:focus-visible,
+        .bm-secondary:focus-visible,
+        .bm-throw:focus-visible,
+        .bm-play:focus-visible {
+          outline: 3px solid #e3ff9d;
+          outline-offset: 3px;
+        }
+
+        @media (max-width: 520px) {
+          .bm-shell { max-width: 100%; }
+          .bm-header { gap: 7px; margin-bottom: 16px; }
+          .bm-arena { border-radius: 19px; margin: 16px auto; }
+          .bm-stat { padding: 12px 5px; border-radius: 13px; }
+          .bm-panel { padding: 17px 13px; }
+          .bm-features { gap: 7px; }
+        }
+
+        /* Compact intro screen: keep the game and start button in view. */
+        .bm-shell:has(.bm-intro-cta) {
+          width: min(100%, 620px);
+          padding-bottom: 12px;
+        }
+
+        .bm-shell:has(.bm-intro-cta) .bm-header {
+          margin-bottom: 10px;
+        }
+
+        .bm-shell:has(.bm-intro-cta) .bm-intro-title {
+          margin: 8px 0 2px;
+          font-size: clamp(28px, 5vw, 42px);
+          line-height: .98;
+        }
+
+        .bm-shell:has(.bm-intro-cta) .bm-tagline {
+          margin: 7px 0 10px;
+          font-size: 10px;
+          letter-spacing: 1.25px;
+        }
+
+        .bm-shell:has(.bm-intro-cta) .bm-arena {
+          width: min(100%, 410px);
+          margin: 10px auto 12px;
+          border-radius: 20px;
+        }
+
+        .bm-intro-cta {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 14px;
+          width: min(100%, 540px);
+          margin: 0 auto;
+          padding: 10px 12px 10px 15px;
+          border: 1px solid #343b2a;
+          border-radius: 16px;
+          background: linear-gradient(110deg, #20231c, #151711);
+          box-shadow: 0 10px 25px #0003;
+        }
+
+        .bm-intro-instructions {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 0;
+        }
+
+        .bm-intro-icon {
+          display: grid;
+          place-items: center;
+          flex: 0 0 34px;
+          width: 34px;
+          height: 34px;
+          border: 1px solid #414b2b;
+          border-radius: 11px;
+          color: #c5f946;
+          background: #252c1b;
+          font-size: 20px;
+        }
+
+        .bm-intro-instructions strong {
+          display: block;
+          color: #e8f5cf;
+          font-size: 11px;
+          letter-spacing: .35px;
+        }
+
+        .bm-intro-instructions p {
+          margin: 4px 0 0;
+          color: #aeb6a1;
+          font-size: 10px;
+          line-height: 1.35;
+        }
+
+        .bm-intro-cta .bm-play {
+          flex: 0 0 auto;
+          width: 154px;
+          min-height: 44px;
+          border-radius: 11px;
+          font-size: 12px;
+        }
+
+        @media (max-height: 850px) {
+          .bm-shell:has(.bm-intro-cta) .bm-intro-title { font-size: clamp(27px, 4.8vw, 38px); }
+          .bm-shell:has(.bm-intro-cta) .bm-arena { margin-top: 8px; margin-bottom: 9px; }
+          .bm-shell:has(.bm-intro-cta) .bm-tagline { margin-bottom: 8px; }
+        }
+
+        @media (max-width: 520px) {
+          .bm-intro-cta { align-items: stretch; flex-direction: column; gap: 10px; padding: 12px; }
+          .bm-intro-cta .bm-play { width: 100%; min-height: 44px; }
+          .bm-intro-instructions strong { font-size: 10px; }
+          .bm-shell:has(.bm-intro-cta) .bm-arena { width: min(100%, 370px); }
+        }
+
+        /* Compact result screen: remove the unused empty arena space. */
+        .bm-shell:has(.bm-result) {
+          width: min(100%, 620px);
+          padding-bottom: 12px;
+        }
+
+        .bm-shell:has(.bm-result) .bm-header {
+          margin-bottom: 10px;
+        }
+
+        .bm-shell:has(.bm-result) .bm-arena {
+          width: min(100%, 400px);
+          aspect-ratio: 1.18;
+          margin: 10px auto 12px;
+          border-radius: 20px;
+        }
+
+        .bm-shell:has(.bm-result) .bm-result {
+          margin: 8px 0 3px;
+          font-size: clamp(27px, 5vw, 38px);
+          line-height: 1.05;
+          color: #c5f946;
+          text-shadow: 0 0 20px #b8ed3c20;
+        }
+
+        .bm-shell:has(.bm-result) .bm-message {
+          min-height: 0;
+          margin: 5px 0 12px;
+          font-size: 12px;
+          line-height: 1.4;
+        }
+
+        .bm-shell:has(.bm-result) .bm-stats {
+          width: min(100%, 420px);
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+          margin: 10px auto 12px;
+        }
+
+        .bm-shell:has(.bm-result) .bm-stat {
+          padding: 12px 8px;
+          border-radius: 14px;
+        }
+
+        .bm-shell:has(.bm-result) .bm-result-buttons {
+          gap: 8px;
+          padding-bottom: max(8px, env(safe-area-inset-bottom));
+        }
+
+        .bm-shell:has(.bm-result) .bm-play {
+          width: min(100%, 300px);
+          min-height: 48px;
+        }
+
+        .bm-shell:has(.bm-result) .bm-secondary {
+          min-height: 44px;
+        }
+
+        @media (max-height: 850px) {
+          .bm-shell:has(.bm-result) .bm-arena {
+            width: min(100%, 350px);
+            margin-top: 7px;
+            margin-bottom: 8px;
+          }
+          .bm-shell:has(.bm-result) .bm-result { font-size: clamp(26px, 4.5vw, 34px); }
+          .bm-shell:has(.bm-result) .bm-stats { margin: 8px auto 10px; }
+        }
+
+        @media (max-width: 520px) {
+          .bm-shell:has(.bm-result) .bm-arena { width: min(100%, 340px); }
+          .bm-shell:has(.bm-result) .bm-result-buttons { flex-direction: column; }
+          .bm-shell:has(.bm-result) .bm-play,
+          .bm-shell:has(.bm-result) .bm-secondary { width: 100%; max-width: 340px; }
+        }
+
+        /* Compact gameplay screen: reduce unused arena height and vertical gaps. */
+        .bm-shell:has(.bm-throw) {
+          width: min(100%, 640px);
+          padding-bottom: 8px;
+        }
+
+        .bm-shell:has(.bm-throw) .bm-header { margin-bottom: 8px; }
+        .bm-shell:has(.bm-throw) .bm-stats { gap: 8px; margin-bottom: 5px; }
+        .bm-shell:has(.bm-throw) .bm-stat { padding: 9px 6px; border-radius: 14px; }
+        .bm-shell:has(.bm-throw) .bm-hint { margin: 7px 0; font-size: 11px; line-height: 1.35; }
+
+        .bm-shell:has(.bm-throw) .bm-arena {
+          width: min(100%, 400px);
+          aspect-ratio: 1 / 1;
+          margin: 10px auto 8px;
+          border-radius: 19px;
+        }
+
+        .bm-shell:has(.bm-throw) .bm-target { width: min(70%, 280px); }
+        .bm-shell:has(.bm-throw) .bm-queue { left: 8px; gap: 1px; }
+        .bm-shell:has(.bm-throw) .bm-queue-knife { transform: scale(.88); margin-block: -2px; }
+        .bm-shell:has(.bm-throw) .bm-message { min-height: 16px; margin: 5px 0; font-size: 11px; }
+        .bm-shell:has(.bm-throw) .bm-throw {
+          width: min(100%, 300px);
+          min-height: 46px;
+          margin: 5px auto;
+        }
+
+        @media (max-height: 900px) {
+          .bm-shell:has(.bm-throw) .bm-arena {
+            width: min(100%, 380px);
+            margin-top: 8px;
+            margin-bottom: 5px;
+          }
+          .bm-shell:has(.bm-throw) .bm-target { width: min(69%, 265px); }
+          .bm-shell:has(.bm-throw) .bm-hint { margin: 5px 0; }
+        }
+
+        @media (max-width: 520px) {
+          .bm-shell:has(.bm-throw) .bm-stats { gap: 5px; }
+          .bm-shell:has(.bm-throw) .bm-stat { padding: 8px 3px; }
+          .bm-shell:has(.bm-throw) .bm-arena {
+            width: min(100%, 360px);
+            aspect-ratio: 1 / 1.02;
+          }
+          .bm-shell:has(.bm-throw) .bm-target { width: 70%; }
+        }
+
       `}</style>
 
       <div className="bm-shell">
@@ -898,7 +1298,7 @@ function BladeMaster({ onBack }) {
             </h1>
 
             <p className="bm-tagline">
-              THROW KNIVES. BREAK RECORDS.
+              TIME YOUR THROW. EARN YOUR SCORE.
             </p>
 
             <div className="bm-arena">
@@ -909,33 +1309,14 @@ function BladeMaster({ onBack }) {
               </div>
             </div>
 
-            <section className="bm-panel">
-              <strong>READY FOR THE CHALLENGE?</strong>
-
-              <div className="bm-features">
-                <div className="bm-feature">
-                  <strong>⚔</strong>
-                  AIM & THROW
-                </div>
-
-                <div className="bm-feature">
-                  <strong>◎</strong>
-                  AVOID HITS
-                </div>
-
-                <div className="bm-feature">
-                  <strong>★</strong>
-                  BREAK RECORDS
+            <section className="bm-intro-cta">
+              <div className="bm-intro-instructions">
+                <span className="bm-intro-icon">✦</span>
+                <div>
+                  <strong>READY? TIME YOUR THROW.</strong>
+                  <p>Hit between the knives · 10 points per hit</p>
                 </div>
               </div>
-
-              <p className="bm-hint">
-                Throw between the knives. Every safe hit earns 10 points.
-                <br />
-                The target gets faster as your score rises!
-              </p>
-
-              <div className="bm-xp">+20 XP</div>
 
               <button className="bm-play" onClick={startGame}>
                 ▶ PLAY NOW
