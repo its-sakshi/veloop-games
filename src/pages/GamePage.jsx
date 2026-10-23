@@ -1,6 +1,7 @@
 
 import { useState } from 'react'
 import BladeMaster from '../games/BladeMaster'
+import NutCraft from '../games/NutCraft'
 
 function GamePage({ game, onBack, tokenBalance }) {
   const [gameOverScore, setGameOverScore] = useState(null)
@@ -17,6 +18,9 @@ function GamePage({ game, onBack, tokenBalance }) {
   // Connect the first carousel game to Tap Challenge.
   if (game.id === 1) {
   return <BladeMaster key={game.id} onBack={onBack} />
+  }
+  if (game.id === 2) {
+  return <NutCraft key={game.id} onBack={onBack} />
   }
 
   return (
