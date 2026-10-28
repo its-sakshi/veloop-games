@@ -3,6 +3,7 @@ import { useState } from 'react'
 import BladeMaster from '../games/BladeMaster'
 import NutCraft from '../games/NutCraft'
 import Bowlexa from '../games/Bowlexa'
+import BlockCrush from '../games/BlockCrush'
 
 function GamePage({ game, onBack, tokenBalance }) {
   const [gameOverScore, setGameOverScore] = useState(null)
@@ -25,6 +26,9 @@ function GamePage({ game, onBack, tokenBalance }) {
   }
   if (game.id === 3) {
   return <Bowlexa key={game.id} onBack={onBack} />
+  }
+  if (game.id === 4) {
+  return <BlockCrush key={game.id} onBack={onBack} />
   }
 
   return (
