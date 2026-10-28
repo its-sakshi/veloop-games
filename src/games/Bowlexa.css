@@ -415,7 +415,7 @@
     0 8px 16px #0008,
     0 0 25px #ff3c2820;
   transition:
-    left .08s linear,
+    left .12s ease-out,
     bottom .75s cubic-bezier(.2, .7, .2, 1),
     transform .75s;
   pointer-events: none;
@@ -459,7 +459,7 @@
 
 .bx-lane.can-aim .bx-ball {
   transition:
-    left .08s linear,
+    left .12s ease-out,
     bottom .75s cubic-bezier(.2, .7, .2, 1),
     transform .75s;
 }

@@ -24,7 +24,7 @@ export default function Bowlexa({ onBack, onWin }) {
   const [score, setScore] = useState(0);
   const [xp, setXp] = useState(0);
   const [lastHit, setLastHit] = useState(0);
-  const [message, setMessage] = useState("Aim carefully, then swing!");
+  const [message, setMessage] = useState("Adjust the aim, watch the ball move, then swing!");
   const rollTimer = useRef(null);
 
   const standing = pins.filter((pin) => pin.standing).length;
@@ -60,50 +60,47 @@ export default function Bowlexa({ onBack, onWin }) {
     setScore(0);
     setXp(0);
     setLastHit(0);
-    setMessage("Aim carefully, then swing!");
+    setMessage("Adjust the aim, watch the ball move, then swing!");
   };
 
   const resetPins = () => {
     if (phase === "rolling") return;
     setPins(createPins());
     setLastHit(0);
-    setMessage("Fresh rack! Line up your swing.");
+    setMessage("Fresh rack! Adjust your aim and take the shot.");
   };
 
   const swing = () => {
     if (phase !== "ready" || timeLeft <= 0 || standing === 0) return;
 
+    const shotAim = aim;
+    const shotPower = power;
+    // Map the aim slider to the width of the pin rack.
+    const targetX = (shotAim / 45) * 75;
+    // Power only widens the hit corridor; there is no random pin selection.
+    const impactRadius = 7 + ((shotPower - 25) / 75) * 11;
+
+    const hitIds = new Set(
+      pins
+        .filter((pin) => pin.standing)
+        .filter((pin) => Math.abs(pin.x - targetX) <= impactRadius)
+        .map((pin) => pin.id)
+    );
+    const hitCount = hitIds.size;
+
     setPhase("rolling");
     setThrows((current) => current + 1);
-    setMessage("The ball is on its way…");
-
-    // Centre aim improves accuracy. Power influences the possible pin count.
-    const accuracy = 1 - Math.min(1, Math.abs(aim) / 45);
-    const expectedHits = 1 + accuracy * 4.2 + (power / 100) * 3.2;
-    const hitCount = Math.min(
-      standing,
-      Math.max(0, Math.round(expectedHits * (0.58 + Math.random() * 0.42)))
-    );
+    setMessage("The ball is rolling toward your aim…");
 
     rollTimer.current = window.setTimeout(() => {
-      setPins((current) => {
-        const remainingPins = current.filter((pin) => pin.standing);
-        const laneTarget = (aim / 45) * 2.4;
-
-        const ordered = [...remainingPins].sort((a, b) => {
-          const distanceA = Math.abs(a.x / 25 - laneTarget);
-          const distanceB = Math.abs(b.x / 25 - laneTarget);
-          return distanceA - distanceB || a.id - b.id;
-        });
-
-        const hitIds = new Set(ordered.slice(0, hitCount).map((pin) => pin.id));
-        return current.map((pin) => ({
+      setPins((current) =>
+        current.map((pin) => ({
           ...pin,
           standing: pin.standing && !hitIds.has(pin.id),
-        }));
-      });
+        }))
+      );
 
-      const isStrike = hitCount === standing;
+      const isStrike = hitCount === standing && hitCount > 0;
       const pointsEarned = hitCount * 100 + (isStrike ? 250 : 0);
       const xpEarned = isStrike ? XP_PER_STRIKE : Math.floor(hitCount / 2) * 2;
 
@@ -112,17 +109,18 @@ export default function Bowlexa({ onBack, onWin }) {
       setXp((current) => current + xpEarned);
       setMessage(
         isStrike
-          ? "STRIKE! All pins down!"
+          ? "STRIKE! All remaining pins are down!"
           : hitCount > 0
-            ? `${hitCount} pin${hitCount === 1 ? "" : "s"} down — nice shot!`
-            : "Missed! Adjust your aim and try again."
+            ? `${hitCount} pin${hitCount === 1 ? "" : "s"} hit — the others stay standing.`
+            : "Miss! No pins were in the ball's path. Adjust your aim."
       );
-      setPhase("ready");
 
-      if (hitCount >= standing) {
+      if (hitCount > 0 && hitCount >= standing) {
         setPhase("result");
         setMessage("Perfect game! You cleared the lane.");
         onWin?.({ score: score + pointsEarned, xp: xp + xpEarned });
+      } else {
+        setPhase("ready");
       }
     }, 850);
   };
@@ -187,7 +185,7 @@ export default function Bowlexa({ onBack, onWin }) {
 
               <div
                 className={`bx-ball ${phase === "rolling" ? "is-swinging" : ""}`}
-                style={{ "--aim": `${aim * 0.36}px` }}
+                style={{ "--aim": `${aim * 2.2}px` }}
                 aria-label="Bowling ball"
               >
                 <span className="bx-ball-holes"><i /><i /><i /></span>
