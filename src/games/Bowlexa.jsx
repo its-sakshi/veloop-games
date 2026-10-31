@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./bowlexa.css";
+import "./Bowlexa.css";
 
 const GAME_SECONDS = 60;
 const XP_PER_STRIKE = 20;
@@ -25,7 +25,9 @@ export default function Bowlexa({ onBack, onWin }) {
   const [xp, setXp] = useState(0);
   const [lastHit, setLastHit] = useState(0);
   const [message, setMessage] = useState("Adjust the aim, watch the ball move, then swing!");
+  
   const rollTimer = useRef(null);
+  const completedRef = useRef(false);
 
   const standing = pins.filter((pin) => pin.standing).length;
 
@@ -47,10 +49,18 @@ export default function Bowlexa({ onBack, onWin }) {
     return () => window.clearInterval(timer);
   }, [phase]);
 
+  useEffect(() => {
+    if (phase === "result" && !completedRef.current) {
+      completedRef.current = true;
+      onWin?.({ score, xp });
+    }
+  }, [phase, score, xp, onWin]);
+
   useEffect(() => () => window.clearTimeout(rollTimer.current), []);
 
   const resetGame = () => {
     window.clearTimeout(rollTimer.current);
+    completedRef.current = false;
     setPins(createPins());
     setAim(0);
     setPower(72);
@@ -75,9 +85,7 @@ export default function Bowlexa({ onBack, onWin }) {
 
     const shotAim = aim;
     const shotPower = power;
-    // Map the aim slider to the width of the pin rack.
     const targetX = (shotAim / 45) * 75;
-    // Power only widens the hit corridor; there is no random pin selection.
     const impactRadius = 7 + ((shotPower - 25) / 75) * 11;
 
     const hitIds = new Set(
@@ -107,6 +115,7 @@ export default function Bowlexa({ onBack, onWin }) {
       setLastHit(hitCount);
       setScore((current) => current + pointsEarned);
       setXp((current) => current + xpEarned);
+
       setMessage(
         isStrike
           ? "STRIKE! All remaining pins are down!"
@@ -118,7 +127,6 @@ export default function Bowlexa({ onBack, onWin }) {
       if (hitCount > 0 && hitCount >= standing) {
         setPhase("result");
         setMessage("Perfect game! You cleared the lane.");
-        onWin?.({ score: score + pointsEarned, xp: xp + xpEarned });
       } else {
         setPhase("ready");
       }
@@ -175,7 +183,6 @@ export default function Bowlexa({ onBack, onWin }) {
                     style={{
                       "--pin-x": `${pin.x}px`,
                       "--pin-y": `${pin.y}px`,
-                      "--pin-delay": `${pin.id * 24}ms`,
                     }}
                   >
                     <span className="bx-pin-stripe" />
