@@ -680,7 +680,7 @@ export default function SliceStorm({
       <div className="ss-shell">
         <header className="ss-header">
           <button className="ss-back" onClick={leaveGame}>
-            <span>←</span> Games
+            <span>←</span> BACK 
           </button>
           <div className="ss-brand">
             <span className="ss-brand-icon">✦</span>

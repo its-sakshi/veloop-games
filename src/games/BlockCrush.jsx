@@ -52,7 +52,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
       width, height, level: nextLevel,
       paddle: { x: width / 2, y: height - 30, w: paddleW, h: 12 },
       ball: { x: width / 2, y: height - 48, vx: 0, vy: 0, r: BALL_RADIUS, active: false },
-      // Keep this array initialized so the canvas draw loop never crashes.
       extraBalls: [],
       fireBall: false,
       powerMultiplier: 1,
@@ -170,7 +169,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
     const blockH = Math.max(22, Math.min(34, height * 0.065));
     const top = Math.max(22, height * 0.055);
 
-    // Blocks: every block has its own hit points and only loses HP on collision.
     g.blocks.forEach((row, r) => row.forEach((block, c) => {
       if (block.hp <= 0) return;
       const x = pad + c * (blockW + gap);
@@ -200,7 +198,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
       ctx.restore();
     }));
 
-    // Power-up drops
     g.powerups = g.powerups.filter((p) => p.y < height + 20);
     g.powerups.forEach((p) => {
       if (status === "playing") p.y += 75 * dt;
@@ -217,11 +214,11 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
       if (status === "playing" && Math.abs(p.x - g.paddle.x) < g.paddle.w / 2 + 10 && Math.abs(p.y - g.paddle.y) < 20) {
         if (p.type === "multi") {
           g.multi = 3;
-          const source = g.ball;
+          const source = g.ball.active ? g.ball : (g.extraBalls.find(b => b.active) || g.ball);
           const baseSpeed = Math.max(BASE_BALL_SPEED, Math.hypot(source.vx, source.vy));
           g.extraBalls = [-0.42, 0.42].map((spread) => ({
             x: source.x, y: source.y, vx: source.vx * 0.65 + spread * baseSpeed,
-            vy: source.vy, r: BALL_RADIUS, active: source.active,
+            vy: source.vy, r: BALL_RADIUS, active: true,
           }));
         }
         if (p.type === "wide") {
@@ -242,7 +239,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
     });
     g.powerups = g.powerups.filter((p) => !p.collected);
 
-    // Timed boosts expire cleanly and restore normal paddle/speed behavior.
     if (status === "playing") {
       Object.keys(g.powerTimers).forEach((key) => {
         if (g.powerTimers[key] > 0) g.powerTimers[key] -= dt;
@@ -256,35 +252,54 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
       });
     }
 
-    // Move extra balls created by MULTI BALL. They bounce independently and
-    // use the same one-hit block scoring rule as the primary ball.
+    // Extra Balls physics & collision
     (g.extraBalls || []).forEach((extra) => {
       if (!extra.active || status !== "playing") return;
-      extra.x += extra.vx * dt; extra.y += extra.vy * dt;
+      extra.x += extra.vx * dt; 
+      extra.y += extra.vy * dt;
       if (extra.x < extra.r || extra.x > width - extra.r) extra.vx *= -1;
       if (extra.y < 8) extra.vy = Math.abs(extra.vy);
       const ep = g.paddle;
       if (extra.vy > 0 && extra.y + extra.r >= ep.y - ep.h / 2 && extra.x >= ep.x - ep.w / 2 - extra.r && extra.x <= ep.x + ep.w / 2 + extra.r) {
-        extra.y = ep.y - ep.h / 2 - extra.r; extra.vy = -Math.abs(extra.vy); extra.vx += (extra.x - ep.x) * 2;
+        extra.y = ep.y - ep.h / 2 - extra.r; 
+        extra.vy = -Math.abs(extra.vy); 
+        extra.vx += (extra.x - ep.x) * 2;
       }
       if (extra.y > height + 18) extra.active = false;
+      
       let extraHit = false;
       g.blocks.forEach((row, r) => row.forEach((block, c) => {
         if (extraHit || block.hp <= 0) return;
         const bx = pad + c * (blockW + gap), by = top + r * (blockH + gap);
         if (extra.x + extra.r < bx || extra.x - extra.r > bx + blockW || extra.y + extra.r < by || extra.y - extra.r > by + blockH) return;
-        const points = block.hp; block.hp = 0; extra.vy *= -1; extraHit = true;
+        
+        const points = block.hp; 
+        block.hp = 0; 
+        if (!g.fireBall) {
+          extra.vy *= -1;
+        }
+        extraHit = true;
+        
         spawnParticles(g, bx + blockW / 2, by + blockH / 2, block.color, 10);
-        setScore((n) => n + points); setXp((n) => n + Math.max(1, Math.floor(points / 10)));
+        setScore((n) => n + points); 
+        setXp((n) => n + Math.max(1, Math.floor(points / 10)));
       }));
-      ctx.save(); ctx.shadowColor = "#32baff"; ctx.shadowBlur = 18;
-      const eg = ctx.createRadialGradient(extra.x - 3, extra.y - 4, 1, extra.x, extra.y, extra.r + 2);
-      eg.addColorStop(0, "#fff"); eg.addColorStop(.42, "#8df4ff"); eg.addColorStop(1, "#168aff");
-      ctx.fillStyle = eg; ctx.beginPath(); ctx.arc(extra.x, extra.y, extra.r + 1, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-    });
-    g.extraBalls = (g.extraBalls || []).filter((b) => b.active);
 
-    // Ball motion and collision detection
+      ctx.save(); 
+      ctx.shadowColor = g.fireBall ? "#ff702d" : "#32baff"; 
+      ctx.shadowBlur = g.fireBall ? 28 : 18;
+      const eg = ctx.createRadialGradient(extra.x - 3, extra.y - 4, 1, extra.x, extra.y, extra.r + 2);
+      eg.addColorStop(0, "#fff"); 
+      eg.addColorStop(.42, g.fireBall ? "#ffb36b" : "#8df4ff"); 
+      eg.addColorStop(1, g.fireBall ? "#ff702d" : "#168aff");
+      ctx.fillStyle = eg; 
+      ctx.beginPath(); 
+      ctx.arc(extra.x, extra.y, extra.r + 1, 0, Math.PI * 2); 
+      ctx.fill(); 
+      ctx.restore();
+    });
+
+    // Primary Ball motion and collision
     const ball = g.ball;
     if (ball.active && status === "playing") {
       ball.x += ball.vx * dt;
@@ -293,7 +308,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
       if (ball.x > width - ball.r) { ball.x = width - ball.r; ball.vx = -Math.abs(ball.vx); }
       if (ball.y < 8) { ball.y = 8; ball.vy = Math.abs(ball.vy); }
 
-      // Paddle collision
       const p = g.paddle;
       if (ball.vy > 0 && ball.y + ball.r >= p.y - p.h / 2 && ball.y - ball.r <= p.y + p.h / 2 &&
           ball.x >= p.x - p.w / 2 - ball.r && ball.x <= p.x + p.w / 2 + ball.r) {
@@ -305,7 +319,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
         ball.vy = -Math.max(170, Math.cos(angle) * speed);
       }
 
-      // Each collision affects only the block actually touched.
       let hitSomething = false;
       g.blocks.forEach((row, r) => row.forEach((block, c) => {
         if (block.hp <= 0 || hitSomething) return;
@@ -313,8 +326,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
         const by = top + r * (blockH + gap);
         if (ball.x + ball.r < bx || ball.x - ball.r > bx + blockW ||
             ball.y + ball.r < by || ball.y - ball.r > by + blockH) return;
-        // The number shown on a block is its point value, not its health.
-        // One collision destroys the block and awards that exact value.
         const pointsEarned = block.hp;
         block.hp = 0;
 
@@ -338,18 +349,35 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
         }
         hitSomething = true;
       }));
+    }
 
-      if (ball.y > height + 18 && g.shield) {
-        ball.y = height - 42;
-        ball.vy = -Math.abs(ball.vy || BASE_BALL_SPEED * 0.7);
-        ball.active = true;
-        g.shield = false;
-        delete g.powerTimers.shield;
-        setActivePowers((current) => current.filter((item) => item !== "shield"));
-        setMessage("SHIELD saved your ball! Keep crushing blocks.");
-      } else if (ball.y > height + 18) {
-        ball.active = false;
+    // Handle out-of-bounds check for ALL balls combined
+    if (status === "playing") {
+      if (ball.active && ball.y > height + 18) {
+        if (g.shield) {
+          ball.y = height - 42;
+          ball.vy = -Math.abs(ball.vy || BASE_BALL_SPEED * 0.7);
+          ball.active = true;
+          g.shield = false;
+          delete g.powerTimers.shield;
+          setActivePowers((current) => current.filter((item) => item !== "shield"));
+          setMessage("SHIELD saved your ball! Keep crushing blocks.");
+        } else {
+          ball.active = false;
+        }
+      }
+
+      (g.extraBalls || []).forEach((extra) => {
+        if (extra.active && extra.y > height + 18) {
+          extra.active = false;
+        }
+      });
+
+      // Only lose a life/ball if EVERY ball is inactive/off-screen
+      const anyBallActive = ball.active || (g.extraBalls || []).some((b) => b.active);
+      if (!anyBallActive) {
         g.multi = 1;
+        g.extraBalls = [];
         setBallsLeft((left) => {
           const next = left - 1;
           if (next <= 0) {
@@ -362,16 +390,17 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
           return Math.max(0, next);
         });
       }
+
       const remaining = g.blocks.flat().filter((b) => b.hp > 0).length;
       if (remaining === 0) {
         ball.active = false;
+        (g.extraBalls || []).forEach(b => b.active = false);
         setStatus("levelup");
         setMessage(`Level ${g.level} cleared! Ready for the next challenge?`);
         setBest((b) => Math.max(b, score + 100));
       }
     }
 
-    // Aim guide
     if (![g.ball, ...(g.extraBalls || [])].some((b) => b.active) && status === "ready") {
       const startX = g.paddle.x;
       const startY = g.paddle.y - 16;
@@ -386,7 +415,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
       ctx.restore();
     }
 
-    // Paddle
     const p = g.paddle;
     ctx.save();
     ctx.shadowColor = "#1e9dff";
@@ -401,19 +429,20 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
     drawRoundedRect(ctx, p.x - p.w * 0.18, p.y - 2, p.w * 0.36, 4, 3, "#28eaff");
     ctx.restore();
 
-    // Ball
-    const ballGrad = ctx.createRadialGradient(ball.x - 3, ball.y - 4, 1, ball.x, ball.y, ball.r + 2);
-    ballGrad.addColorStop(0, "#fff");
-    ballGrad.addColorStop(0.42, "#8df4ff");
-    ballGrad.addColorStop(1, "#168aff");
-    ctx.save();
-    ctx.shadowColor = g.fireBall ? "#ff702d" : "#32baff";
-    ctx.shadowBlur = g.fireBall ? 28 : 18;
-    ctx.fillStyle = g.fireBall ? "#ff9b37" : ballGrad;
-    ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r + 1, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
+    // Draw primary ball
+    if (ball.active) {
+      const ballGrad = ctx.createRadialGradient(ball.x - 3, ball.y - 4, 1, ball.x, ball.y, ball.r + 2);
+      ballGrad.addColorStop(0, "#fff");
+      ballGrad.addColorStop(0.42, g.fireBall ? "#ffb36b" : "#8df4ff");
+      ballGrad.addColorStop(1, g.fireBall ? "#ff702d" : "#168aff");
+      ctx.save();
+      ctx.shadowColor = g.fireBall ? "#ff702d" : "#32baff";
+      ctx.shadowBlur = g.fireBall ? 28 : 18;
+      ctx.fillStyle = g.fireBall ? "#ff9b37" : ballGrad;
+      ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.r + 1, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
 
-    // Particles
     g.particles = g.particles.filter((particle) => particle.life > 0);
     g.particles.forEach((particle) => {
       particle.life -= dt;
@@ -438,8 +467,6 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
   const aimAt = (event) => {
     const canvas = canvasRef.current;
     const g = gameRef.current;
-    // The paddle must remain controllable while the ball is in flight.
-    // Before launch, the ball follows the paddle; after launch, only the paddle moves.
     if (!canvas || !g || (status !== "ready" && status !== "playing")) return;
     const rect = canvas.getBoundingClientRect();
     const halfPaddle = g.paddle.w / 2;
