@@ -484,7 +484,7 @@ export default function BlockCrush({ onWin, onExit, onBack, onGameComplete }) {
     <main className="bc-game">
       <div className="bc-shell">
         <header className="bc-header">
-          <button className="bc-back" onClick={leaveGame} aria-label="Back to games">← <span>Games</span></button>
+          <button className="bc-back" onClick={leaveGame} aria-label="Back to games">← <span>BACK</span></button>
           <div className="bc-brand"><span className="bc-brand-mark">◆</span><span>VELOOP <b>ARCADE</b></span></div>
           <button className={`bc-sound ${soundOn ? "is-on" : ""}`} onClick={() => setSoundOn((v) => !v)} aria-label="Toggle sound">{soundOn ? "♫" : "♪"}</button>
         </header>

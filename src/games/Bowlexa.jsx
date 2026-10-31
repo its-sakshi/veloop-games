@@ -138,7 +138,7 @@ export default function Bowlexa({ onBack, onWin }) {
       <div className="bx-shell">
         <header className="bx-header">
           <button className="bx-back" type="button" onClick={onBack} aria-label="Back to games">
-            <span aria-hidden="true">←</span> <span className="bx-back-label">Games</span>
+            <span aria-hidden="true">←</span> <span className="bx-back-label"> BACK</span>
           </button>
 
           <div className="bx-brand" aria-label="Bowlexa">
