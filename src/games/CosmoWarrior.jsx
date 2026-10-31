@@ -1,4 +1,3 @@
-
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./CosmoWarrior.css";
 
@@ -12,8 +11,9 @@ const random = (min, max) => Math.random() * (max - min) + min;
 
 function makeEnemy(canvasWidth, wave) {
   const size = random(25, 36);
+
   return {
-    x: random(size + 8, canvasWidth - size - 8),
+    x: random(size + 8, Math.max(size + 9, canvasWidth - size - 8)),
     y: random(-150, -35),
     w: size,
     h: size * 0.82,
@@ -64,20 +64,19 @@ export default function CosmoWarrior({
   }, [onExit, onBack]);
 
   const startGame = useCallback(() => {
-    const canvas = canvasRef.current;
-    const width = canvas?.clientWidth || 800;
-    const height = canvas?.clientHeight || 600;
-
+    // Do not use desktop fallback dimensions here.
+    // The actual canvas dimensions are measured after it renders.
     gameRef.current = {
       player: {
-        x: width / 2,
-        y: height - 82,
+        x: 0,
+        y: 0,
         w: 42,
         h: 54,
         invulnerable: 0,
         shield: 0,
         multi: 0,
         laser: 0,
+        hasInitializedPosition: false,
       },
 
       bullets: [],
@@ -103,7 +102,11 @@ export default function CosmoWarrior({
     };
 
     keysRef.current = {};
-    pointerRef.current.active = false;
+    pointerRef.current = {
+      active: false,
+      x: 0,
+      y: 0,
+    };
 
     setHud({
       score: 0,
@@ -142,14 +145,12 @@ export default function CosmoWarrior({
         Math.floor(g.score / 25) + g.wave * 2
       );
 
-      if (onGameComplete) {
-        onGameComplete({
-          score: g.score,
-          xp,
-          reason,
-          coins: g.coins,
-        });
-      }
+      onGameComplete?.({
+        score: g.score,
+        xp,
+        reason,
+        coins: g.coins,
+      });
     },
     [onGameComplete]
   );
@@ -166,32 +167,61 @@ export default function CosmoWarrior({
     let last = performance.now();
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    let width = 0;
-    let height = 0;
+    let width = 1;
+    let height = 1;
+
+    // Stars are resized together with the canvas.
+    let stars = [];
+
+    const createStars = () =>
+      Array.from({ length: 90 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: random(0.5, 1.8),
+        speed: random(12, 65),
+        alpha: random(0.25, 0.9),
+      }));
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
 
-      width = Math.max(280, rect.width);
-      height = Math.max(360, rect.height);
+      // Use the real CSS dimensions. Do not force a desktop width.
+      width = Math.max(1, rect.width);
+      height = Math.max(1, rect.height);
 
       dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const g = gameRef.current;
 
       if (g) {
-        g.player.x = clamp(g.player.x, 28, width - 28);
-        g.player.y = clamp(
-          g.player.y,
-          height * 0.58,
-          height - 45
-        );
+        const p = g.player;
+
+        if (!p.hasInitializedPosition) {
+          // Put the spaceship in the centre on the first render.
+          p.x = width / 2;
+          p.y = height - Math.min(82, height * 0.16);
+          p.hasInitializedPosition = true;
+        } else {
+          // Keep the ship inside the resized arena.
+          p.x = clamp(p.x, 27, Math.max(27, width - 27));
+          p.y = clamp(
+            p.y,
+            Math.min(height * 0.55, height - 42),
+            Math.max(42, height - 42)
+          );
+        }
       }
+
+      // Keep the pointer target inside the new arena.
+      pointerRef.current.x = clamp(pointerRef.current.x, 0, width);
+      pointerRef.current.y = clamp(pointerRef.current.y, 0, height);
+
+      stars = createStars();
     };
 
     resize();
@@ -199,16 +229,11 @@ export default function CosmoWarrior({
     const observer = new ResizeObserver(resize);
     observer.observe(canvas);
 
-    const stars = Array.from({ length: 90 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      r: random(0.5, 1.8),
-      speed: random(12, 65),
-      alpha: random(0.25, 0.9),
-    }));
+    window.addEventListener("resize", resize);
 
     const burst = (x, y, color, count = 12) => {
       const g = gameRef.current;
+      if (!g) return;
 
       for (let i = 0; i < count; i++) {
         const a = Math.random() * Math.PI * 2;
@@ -229,9 +254,7 @@ export default function CosmoWarrior({
 
     const fire = (g) => {
       const p = g.player;
-
-      const spread =
-        p.multi > 0 ? [-15, 0, 15] : [0];
+      const spread = p.multi > 0 ? [-15, 0, 15] : [0];
 
       spread.forEach((offset) => {
         g.bullets.push({
@@ -435,8 +458,12 @@ export default function CosmoWarrior({
         p.y += dy * PLAYER_SPEED * dt;
       }
 
-      p.x = clamp(p.x, 27, width - 27);
-      p.y = clamp(p.y, height * 0.55, height - 42);
+      p.x = clamp(p.x, 27, Math.max(27, width - 27));
+      p.y = clamp(
+        p.y,
+        Math.min(height * 0.55, height - 42),
+        Math.max(42, height - 42)
+      );
 
       g.fireTimer -= dt;
 
@@ -524,11 +551,7 @@ export default function CosmoWarrior({
         const b = g.bullets[i];
         let hit = false;
 
-        for (
-          let j = g.enemies.length - 1;
-          j >= 0;
-          j--
-        ) {
+        for (let j = g.enemies.length - 1; j >= 0; j--) {
           const e = g.enemies[j];
 
           if (
@@ -567,16 +590,11 @@ export default function CosmoWarrior({
       }
 
       // Enemy bullets versus player
-      for (
-        let i = g.enemyBullets.length - 1;
-        i >= 0;
-        i--
-      ) {
+      for (let i = g.enemyBullets.length - 1; i >= 0; i--) {
         const b = g.enemyBullets[i];
 
         if (
-          Math.hypot(b.x - p.x, b.y - p.y) <
-            23 + b.r &&
+          Math.hypot(b.x - p.x, b.y - p.y) < 23 + b.r &&
           p.invulnerable <= 0
         ) {
           g.enemyBullets.splice(i, 1);
@@ -600,11 +618,7 @@ export default function CosmoWarrior({
       }
 
       // Enemy collision with player
-      for (
-        let i = g.enemies.length - 1;
-        i >= 0;
-        i--
-      ) {
+      for (let i = g.enemies.length - 1; i >= 0; i--) {
         const e = g.enemies[i];
 
         if (
@@ -626,11 +640,7 @@ export default function CosmoWarrior({
       }
 
       // Collect power-ups
-      for (
-        let i = g.powerups.length - 1;
-        i >= 0;
-        i--
-      ) {
+      for (let i = g.powerups.length - 1; i >= 0; i--) {
         const item = g.powerups[i];
 
         if (Math.hypot(item.x - p.x, item.y - p.y) < 34) {
@@ -644,6 +654,13 @@ export default function CosmoWarrior({
       g.bullets = g.bullets.filter(
         (b) =>
           b.y > -40 &&
+          b.x > -30 &&
+          b.x < width + 30
+      );
+
+      g.enemyBullets = g.enemyBullets.filter(
+        (b) =>
+          b.y < height + 30 &&
           b.x > -30 &&
           b.x < width + 30
       );
@@ -786,12 +803,9 @@ export default function CosmoWarrior({
       });
 
       g.particles.forEach((part) => {
-        ctx.globalAlpha = Math.max(
-          0,
-          part.life / part.max
-        );
-
+        ctx.globalAlpha = Math.max(0, part.life / part.max);
         ctx.fillStyle = part.color;
+
         ctx.beginPath();
         ctx.arc(part.x, part.y, part.r, 0, Math.PI * 2);
         ctx.fill();
@@ -844,16 +858,20 @@ export default function CosmoWarrior({
       keysRef.current[e.key === " " ? "Space" : e.key] = false;
     };
 
+    // Convert screen coordinates to canvas coordinates.
     const point = (e) => {
       const rect = canvas.getBoundingClientRect();
 
+      const scaleX = width / rect.width;
+      const scaleY = height / rect.height;
+
       pointerRef.current = {
         active: true,
-        x: e.clientX - rect.left,
+        x: clamp((e.clientX - rect.left) * scaleX, 27, width - 27),
         y: clamp(
-          e.clientY - rect.top,
-          height * 0.55,
-          height - 42
+          (e.clientY - rect.top) * scaleY,
+          Math.min(height * 0.55, height - 42),
+          Math.max(42, height - 42)
         ),
       };
     };
@@ -863,7 +881,9 @@ export default function CosmoWarrior({
     };
 
     const pointerMove = (e) => {
-      if (e.buttons) point(e);
+      if (e.buttons || e.pointerType === "touch") {
+        point(e);
+      }
     };
 
     window.addEventListener("keydown", keyDown);
@@ -871,20 +891,21 @@ export default function CosmoWarrior({
 
     canvas.addEventListener("pointerdown", point);
     canvas.addEventListener("pointermove", pointerMove);
-
     window.addEventListener("pointerup", pointerUp);
+    window.addEventListener("pointercancel", pointerUp);
 
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
+      window.removeEventListener("resize", resize);
 
       window.removeEventListener("keydown", keyDown);
       window.removeEventListener("keyup", keyUp);
 
       canvas.removeEventListener("pointerdown", point);
       canvas.removeEventListener("pointermove", pointerMove);
-
       window.removeEventListener("pointerup", pointerUp);
+      window.removeEventListener("pointercancel", pointerUp);
     };
   }, [screen, finishGame]);
 

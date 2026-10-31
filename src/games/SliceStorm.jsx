@@ -3,6 +3,7 @@ import "./SliceStorm.css";
 
 const ROUND_TIME = 60;
 const STARTING_LIVES = 3;
+const MAX_DPR = 2;
 
 const FRUITS = [
   { emoji: "🍉", color: "#ff3158", light: "#ff9aa9", points: 10 },
@@ -16,6 +17,7 @@ const FRUITS = [
 ];
 
 const random = (min, max) => Math.random() * (max - min) + min;
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 function distanceToSegment(px, py, ax, ay, bx, by) {
   const dx = bx - ax;
@@ -24,10 +26,7 @@ function distanceToSegment(px, py, ax, ay, bx, by) {
 
   if (!length) return Math.hypot(px - ax, py - ay);
 
-  const t = Math.max(
-    0,
-    Math.min(1, ((px - ax) * dx + (py - ay) * dy) / length)
-  );
+  const t = clamp(((px - ax) * dx + (py - ay) * dy) / length, 0, 1);
 
   return Math.hypot(px - ax - t * dx, py - ay - t * dy);
 }
@@ -60,11 +59,7 @@ function createGame(width, height) {
   };
 }
 
-export default function SliceStorm({
-  onExit,
-  onBack,
-  onGameComplete,
-}) {
+export default function SliceStorm({ onExit, onBack, onGameComplete }) {
   const canvasRef = useRef(null);
   const gameRef = useRef(null);
   const animationRef = useRef(0);
@@ -92,49 +87,114 @@ export default function SliceStorm({
     callbackRef.current = onGameComplete;
   }, [onGameComplete]);
 
+  // Keep the canvas drawing coordinates matched to its responsive CSS size.
   const initCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    if (!rect.width || !rect.height) return;
+    if (rect.width <= 0 || rect.height <= 0) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+    const pixelWidth = Math.round(rect.width * dpr);
+    const pixelHeight = Math.round(rect.height * dpr);
 
-    canvas.width = Math.round(rect.width * dpr);
-    canvas.height = Math.round(rect.height * dpr);
+    if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+      canvas.width = pixelWidth;
+      canvas.height = pixelHeight;
+    }
 
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     if (!gameRef.current) {
       gameRef.current = createGame(rect.width, rect.height);
-    } else {
-      gameRef.current.width = rect.width;
-      gameRef.current.height = rect.height;
+      return;
     }
+
+    const game = gameRef.current;
+    const oldWidth = game.width || rect.width;
+    const oldHeight = game.height || rect.height;
+
+    // Preserve game object positions proportionally when the screen changes size.
+    const scaleX = rect.width / oldWidth;
+    const scaleY = rect.height / oldHeight;
+
+    game.fruits.forEach((fruit) => {
+      fruit.x = clamp(
+        fruit.x * scaleX,
+        fruit.radius,
+        Math.max(fruit.radius, rect.width - fruit.radius)
+      );
+      fruit.y *= scaleY;
+      fruit.vx *= scaleX;
+      fruit.vy *= scaleY;
+    });
+
+    game.particles.forEach((particle) => {
+      particle.x *= scaleX;
+      particle.y *= scaleY;
+    });
+
+    game.trail.forEach((point) => {
+      point.x *= scaleX;
+      point.y *= scaleY;
+    });
+
+    game.splashRings.forEach((ring) => {
+      ring.x *= scaleX;
+      ring.y *= scaleY;
+    });
+
+    game.floatingTexts.forEach((item) => {
+      item.x *= scaleX;
+      item.y *= scaleY;
+    });
+
+    game.width = rect.width;
+    game.height = rect.height;
   }, []);
 
   useEffect(() => {
     initCanvas();
 
-    const observer = new ResizeObserver(initCanvas);
-    if (canvasRef.current) observer.observe(canvasRef.current);
+    let resizeFrame = 0;
+    const handleResize = () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(initCanvas);
+    };
 
-    window.addEventListener("resize", initCanvas);
+    let observer;
+
+    if (typeof ResizeObserver !== "undefined" && canvasRef.current) {
+      observer = new ResizeObserver(handleResize);
+      observer.observe(canvasRef.current);
+    }
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
 
     return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", initCanvas);
+      cancelAnimationFrame(resizeFrame);
+      observer?.disconnect();
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
     };
   }, [initCanvas]);
 
   const startGame = useCallback(() => {
     const canvas = canvasRef.current;
-    const width = canvas?.clientWidth || 800;
-    const height = canvas?.clientHeight || 500;
+    if (!canvas) return;
 
-    gameRef.current = createGame(width, height);
+    initCanvas();
+
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+
+    gameRef.current = createGame(rect.width, rect.height);
+
     completedRef.current = false;
     lastFrameRef.current = 0;
     lastHudRef.current = 0;
@@ -147,7 +207,7 @@ export default function SliceStorm({
     setRound(1);
 
     updateStatus("playing");
-  }, [updateStatus]);
+  }, [initCanvas, updateStatus]);
 
   const addSplash = useCallback((g, x, y, color, count = 24) => {
     for (let i = 0; i < count; i++) {
@@ -169,7 +229,8 @@ export default function SliceStorm({
     }
 
     g.splashRings.push({
-      x, y,
+      x,
+      y,
       radius: 3,
       maxRadius: random(35, 55),
       life: 0.32,
@@ -178,7 +239,8 @@ export default function SliceStorm({
     });
 
     g.splashRings.push({
-      x, y,
+      x,
+      y,
       radius: 2,
       maxRadius: random(22, 38),
       life: 0.24,
@@ -255,7 +317,12 @@ export default function SliceStorm({
       if (fruit.sliced || fruit.missed) continue;
 
       const hitDistance = distanceToSegment(
-        fruit.x, fruit.y, ax, ay, bx, by
+        fruit.x,
+        fruit.y,
+        ax,
+        ay,
+        bx,
+        by
       );
 
       if (hitDistance > fruit.radius + 7) continue;
@@ -296,48 +363,62 @@ export default function SliceStorm({
     g.lastPoint = point;
   }, [addSplash, loseLife, sliceFruit]);
 
+  // Convert pointer coordinates to the canvas's logical drawing coordinates.
+  const getPointerPosition = useCallback((event, canvas, game) => {
+    const rect = canvas.getBoundingClientRect();
+
+    return {
+      x: ((event.clientX - rect.left) / rect.width) * game.width,
+      y: ((event.clientY - rect.top) / rect.height) * game.height,
+    };
+  }, []);
+
   const handlePointerDown = (event) => {
     if (statusRef.current !== "playing") return;
+
     event.preventDefault();
 
     const canvas = canvasRef.current;
-    const g = gameRef.current;
-    if (!canvas || !g) return;
+    const game = gameRef.current;
+    if (!canvas || !game) return;
 
     try {
       canvas.setPointerCapture(event.pointerId);
     } catch {}
 
-    const rect = canvas.getBoundingClientRect();
-    g.pointerDown = true;
-    g.lastPoint = {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    };
-    g.bombHitThisSwipe = false;
+    game.pointerDown = true;
+    game.lastPoint = getPointerPosition(event, canvas, game);
+    game.bombHitThisSwipe = false;
   };
 
   const handlePointerMove = (event) => {
-    const g = gameRef.current;
+    const game = gameRef.current;
     const canvas = canvasRef.current;
 
-    if (!g || !canvas || !g.pointerDown || statusRef.current !== "playing") return;
+    if (
+      !game ||
+      !canvas ||
+      !game.pointerDown ||
+      statusRef.current !== "playing"
+    ) {
+      return;
+    }
+
     event.preventDefault();
 
-    const rect = canvas.getBoundingClientRect();
-    handleSlice(g, {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top,
-    });
+    handleSlice(
+      game,
+      getPointerPosition(event, canvas, game)
+    );
   };
 
   const handlePointerUp = () => {
-    const g = gameRef.current;
-    if (!g) return;
+    const game = gameRef.current;
+    if (!game) return;
 
-    g.pointerDown = false;
-    g.lastPoint = null;
-    g.bombHitThisSwipe = false;
+    game.pointerDown = false;
+    game.lastPoint = null;
+    game.bombHitThisSwipe = false;
   };
 
   const finishGame = useCallback((g, reason) => {
@@ -376,7 +457,9 @@ export default function SliceStorm({
       if (!ctx) return;
 
       const dt = Math.min(
-        lastFrameRef.current ? (timestamp - lastFrameRef.current) / 1000 : 0,
+        lastFrameRef.current
+          ? (timestamp - lastFrameRef.current) / 1000
+          : 0,
         0.035
       );
 
@@ -402,8 +485,7 @@ export default function SliceStorm({
           for (let i = 0; i < count; i++) {
             const isBomb = Math.random() < bombChance;
             const fruit = FRUITS[Math.floor(Math.random() * FRUITS.length)];
-            // Increased radius range here (from 30-40 to 38-50)
-            const radius = random(38, 50);
+            const radius = clamp(Math.min(width, height) * 0.075, 25, 50);
             const safeWidth = Math.max(width - radius * 2 - 20, 1);
 
             g.fruits.push({
@@ -425,7 +507,8 @@ export default function SliceStorm({
             });
           }
 
-          g.spawnTimer = random(0.85, 1.15) * Math.max(0.75, 1 - g.round * 0.012);
+          g.spawnTimer =
+            random(0.85, 1.15) * Math.max(0.75, 1 - g.round * 0.012);
         }
 
         for (const fruit of g.fruits) {
@@ -449,7 +532,9 @@ export default function SliceStorm({
           }
         }
 
-        g.fruits = g.fruits.filter((fruit) => !fruit.sliced && !fruit.missed);
+        g.fruits = g.fruits.filter(
+          (fruit) => !fruit.sliced && !fruit.missed
+        );
 
         if (g.lives <= 0) {
           g.lives = 0;
@@ -510,7 +595,12 @@ export default function SliceStorm({
           ctx.shadowBlur = 24;
 
           const bombGradient = ctx.createRadialGradient(
-            -fruit.radius * 0.35, -fruit.radius * 0.4, 2, 0, 0, fruit.radius * 1.2
+            -fruit.radius * 0.35,
+            -fruit.radius * 0.4,
+            2,
+            0,
+            0,
+            fruit.radius * 1.2
           );
 
           bombGradient.addColorStop(0, "#69758d");
@@ -538,7 +628,12 @@ export default function SliceStorm({
           ctx.shadowBlur = 22;
 
           const gradient = ctx.createRadialGradient(
-            -fruit.radius * 0.35, -fruit.radius * 0.4, 2, 0, 0, fruit.radius * 1.2
+            -fruit.radius * 0.35,
+            -fruit.radius * 0.4,
+            2,
+            0,
+            0,
+            fruit.radius * 1.2
           );
 
           gradient.addColorStop(0, "#ffffff");
@@ -568,6 +663,7 @@ export default function SliceStorm({
       g.trail = g.trail.filter((p) => p.life > 0);
       for (const p of g.trail) {
         p.life -= dt;
+
         ctx.save();
         ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
         ctx.shadowColor = "#27eaff";
@@ -616,19 +712,19 @@ export default function SliceStorm({
         ctx.restore();
       }
 
-      g.floatingTexts = g.floatingTexts.filter((t) => t.life > 0);
-      for (const t of g.floatingTexts) {
-        t.life -= dt;
-        t.y -= 42 * dt;
+      g.floatingTexts = g.floatingTexts.filter((item) => item.life > 0);
+      for (const item of g.floatingTexts) {
+        item.life -= dt;
+        item.y -= 42 * dt;
 
         ctx.save();
-        ctx.globalAlpha = Math.min(1, t.life * 2);
+        ctx.globalAlpha = Math.min(1, item.life * 2);
         ctx.font = "900 15px system-ui, sans-serif";
         ctx.textAlign = "center";
-        ctx.shadowColor = t.color;
+        ctx.shadowColor = item.color;
         ctx.shadowBlur = 10;
-        ctx.fillStyle = t.color;
-        ctx.fillText(t.text, t.x, t.y);
+        ctx.fillStyle = item.color;
+        ctx.fillText(item.text, item.x, item.y);
         ctx.restore();
       }
 
@@ -646,6 +742,7 @@ export default function SliceStorm({
 
   useEffect(() => {
     if (status !== "over" || completedRef.current) return;
+
     completedRef.current = true;
 
     if (callbackRef.current) {
@@ -665,6 +762,7 @@ export default function SliceStorm({
   const pauseGame = () => {
     const g = gameRef.current;
     if (!g) return;
+
     g.pointerDown = false;
     g.lastPoint = null;
     updateStatus("paused");
@@ -680,12 +778,14 @@ export default function SliceStorm({
       <div className="ss-shell">
         <header className="ss-header">
           <button className="ss-back" onClick={leaveGame}>
-            <span>←</span> BACK 
+            <span>←</span> BACK
           </button>
+
           <div className="ss-brand">
             <span className="ss-brand-icon">✦</span>
             VELOOP <b>ARCADE</b>
           </div>
+
           <div className="ss-round-pill">ROUND {round}</div>
         </header>
 
@@ -696,17 +796,28 @@ export default function SliceStorm({
             <span className="ss-new">NEW GAME</span>
           </div>
 
-          <h1>SLICE <span>STORM</span></h1>
-          <p className="ss-tagline">SLICE. <b>COMBO.</b> CONQUER.</p>
+          <h1>
+            SLICE <span>STORM</span>
+          </h1>
 
+          <p className="ss-tagline">
+            SLICE. <b>COMBO.</b> CONQUER.
+          </p>
         </section>
 
         <section className="ss-board-wrap">
           <div className="ss-board-top">
-            <span>SLICE ARENA <b>•</b> ROUND {round}</span>
+            <span>
+              SLICE ARENA <b>•</b> ROUND {round}
+            </span>
+
             <span className="ss-live">
               <i />
-              {status === "playing" ? "LIVE" : status === "paused" ? "PAUSED" : "ARCADE"}
+              {status === "playing"
+                ? "LIVE"
+                : status === "paused"
+                  ? "PAUSED"
+                  : "ARCADE"}
             </span>
           </div>
 
@@ -715,12 +826,14 @@ export default function SliceStorm({
               <small>SCORE</small>
               <strong>{score.toLocaleString()}</strong>
             </div>
+
             <div>
               <small>TIME LEFT</small>
               <strong className={timeLeft <= 10 ? "urgent" : ""}>
                 00:{String(timeLeft).padStart(2, "0")}
               </strong>
             </div>
+
             <div>
               <small>LIVES</small>
               <strong className="ss-lives">
@@ -728,6 +841,7 @@ export default function SliceStorm({
                 <span>{"♥".repeat(STARTING_LIVES - lives)}</span>
               </strong>
             </div>
+
             <div>
               <small>BEST</small>
               <strong>{best.toLocaleString()}</strong>
@@ -750,15 +864,27 @@ export default function SliceStorm({
               <div className="ss-overlay">
                 <div className="ss-overlay-card">
                   <div className="ss-overlay-icon">
-                    {status === "over" ? "✦" : status === "paused" ? "Ⅱ" : "⚔"}
+                    {status === "over"
+                      ? "✦"
+                      : status === "paused"
+                        ? "Ⅱ"
+                        : "⚔"}
                   </div>
 
                   <span className="ss-overlay-kicker">
-                    {status === "over" ? "ROUND COMPLETE" : status === "paused" ? "TAKE A BREATHER" : "READY YOUR BLADE"}
+                    {status === "over"
+                      ? "ROUND COMPLETE"
+                      : status === "paused"
+                        ? "TAKE A BREATHER"
+                        : "READY YOUR BLADE"}
                   </span>
 
                   <h2>
-                    {status === "over" ? "STORM ENDED" : status === "paused" ? "GAME PAUSED" : "SLICE THE STORM"}
+                    {status === "over"
+                      ? "STORM ENDED"
+                      : status === "paused"
+                        ? "GAME PAUSED"
+                        : "SLICE THE STORM"}
                   </h2>
 
                   <p>
@@ -767,8 +893,8 @@ export default function SliceStorm({
                         ? "All three lives are gone. Ready for another round?"
                         : "Time's up! Your final score is ready."
                       : status === "paused"
-                      ? "Your timer is paused. Resume when you're ready."
-                      : "Swipe through fruit to score points. Avoid bombs and chain combos for bonus points."}
+                        ? "Your timer is paused. Resume when you're ready."
+                        : "Swipe through fruit to score points. Avoid bombs and chain combos for bonus points."}
                   </p>
 
                   {status === "over" && (
@@ -781,9 +907,15 @@ export default function SliceStorm({
 
                   <button
                     className="ss-play"
-                    onClick={status === "paused" ? resumeGame : startGame}
+                    onClick={
+                      status === "paused" ? resumeGame : startGame
+                    }
                   >
-                    {status === "over" ? "PLAY AGAIN" : status === "paused" ? "RESUME GAME" : "START SLICING"}
+                    {status === "over"
+                      ? "PLAY AGAIN"
+                      : status === "paused"
+                        ? "RESUME GAME"
+                        : "START SLICING"}
                     <span>➜</span>
                   </button>
 
@@ -803,29 +935,49 @@ export default function SliceStorm({
           </div>
 
           <div className="ss-board-footer">
-            <span><i className="ss-blue-dot" /> Slice fruit for points</span>
-            <span><i className="ss-red-dot" /> Avoid bombs</span>
-            <span><i className="ss-gold-dot" /> Chain combos for bonus</span>
+            <span>
+              <i className="ss-blue-dot" /> Slice fruit for points
+            </span>
+            <span>
+              <i className="ss-red-dot" /> Avoid bombs
+            </span>
+            <span>
+              <i className="ss-gold-dot" /> Chain combos for bonus
+            </span>
           </div>
         </section>
 
         <section className="ss-controls">
           <div className="ss-instruction">
             <span className="ss-blade">⚔</span>
+
             <div>
               <strong>YOUR BLADE, YOUR RULES</strong>
               <small>
                 Swipe with your mouse or finger. Slice several fruits in one
-                motion for bonus points. Letting fruits fall is completely safe!
+                motion for bonus points. Letting fruits fall is completely
+                safe!
               </small>
             </div>
           </div>
 
           <button
             className="ss-small-play"
-            onClick={status === "playing" ? pauseGame : status === "paused" ? resumeGame : startGame}
+            onClick={
+              status === "playing"
+                ? pauseGame
+                : status === "paused"
+                  ? resumeGame
+                  : startGame
+            }
           >
-            {status === "playing" ? "PAUSE" : status === "paused" ? "RESUME" : status === "over" ? "PLAY AGAIN" : "PLAY NOW"}
+            {status === "playing"
+              ? "PAUSE"
+              : status === "paused"
+                ? "RESUME"
+                : status === "over"
+                  ? "PLAY AGAIN"
+                  : "PLAY NOW"}
             <span>{status === "playing" ? "Ⅱ" : "▶"}</span>
           </button>
         </section>
@@ -838,10 +990,21 @@ export default function SliceStorm({
 
           <div className="ss-footer-right">
             <span className="ss-level">ROUND {round}</span>
+
             <button
-              onClick={status === "playing" ? pauseGame : status === "paused" ? resumeGame : startGame}
+              onClick={
+                status === "playing"
+                  ? pauseGame
+                  : status === "paused"
+                    ? resumeGame
+                    : startGame
+              }
             >
-              {status === "playing" ? "PAUSE" : status === "paused" ? "RESUME" : "PLAY AGAIN"}
+              {status === "playing"
+                ? "PAUSE"
+                : status === "paused"
+                  ? "RESUME"
+                  : "PLAY AGAIN"}
               <span>➜</span>
             </button>
           </div>

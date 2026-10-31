@@ -963,3 +963,574 @@
   .ss-board-wrap > .ss-stats { padding: 13px 20px; }
   .ss-board-wrap > .ss-stats > div { padding-left: 18px; }
 }
+
+/* =========================================
+   SLICE STORM — RESPONSIVE DEVICE SUPPORT
+   Desktop • Laptop • Tablet • Mobile
+========================================= */
+
+.ss-game {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(8px, 2vw, 30px);
+  overflow-x: clip;
+}
+
+.ss-shell {
+  width: 100%;
+  max-width: 1180px;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.ss-header,
+.ss-hero,
+.ss-board-wrap,
+.ss-controls,
+.ss-features,
+.ss-footer {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.ss-header {
+  flex-wrap: wrap;
+}
+
+.ss-brand {
+  min-width: 0;
+  text-align: center;
+}
+
+.ss-hero h1 {
+  overflow-wrap: anywhere;
+  font-size: clamp(32px, 6vw, 68px);
+  line-height: 1.05;
+}
+
+.ss-tagline {
+  line-height: 1.5;
+}
+
+/* Game board and canvas */
+.ss-board-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ss-board {
+  position: relative;
+  width: 100%;
+  height: clamp(340px, 55vw, 620px);
+  min-height: 0;
+  max-height: 700px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ss-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* HUD */
+.ss-board-wrap > .ss-stats {
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ss-board-wrap > .ss-stats > div {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ss-board-wrap > .ss-stats strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ss-board-top {
+  min-width: 0;
+  gap: 8px;
+}
+
+.ss-board-top > span {
+  min-width: 0;
+}
+
+.ss-board-footer {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ss-board-footer span {
+  white-space: normal;
+}
+
+/* Overlay */
+.ss-overlay {
+  z-index: 5;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.ss-overlay-card {
+  width: min(410px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.ss-play,
+.ss-small-play,
+.ss-footer-right button {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+/* Controls and footer */
+.ss-controls {
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.ss-instruction {
+  flex: 1 1 260px;
+}
+
+.ss-instruction > div {
+  min-width: 0;
+}
+
+.ss-small-play {
+  flex-shrink: 0;
+}
+
+.ss-footer {
+  flex-wrap: wrap;
+}
+
+.ss-footer-right {
+  flex-wrap: wrap;
+}
+
+.ss-footer-right button {
+  min-width: 120px;
+}
+
+/* Large desktop screens */
+@media (min-width: 1200px) {
+  .ss-board {
+    height: clamp(520px, 48vw, 680px);
+  }
+}
+
+/* Laptops and smaller desktops */
+@media (min-width: 701px) and (max-width: 1100px) {
+  .ss-game {
+    padding: 18px;
+  }
+
+  .ss-board {
+    height: clamp(420px, 55vw, 570px);
+  }
+
+  .ss-controls {
+    gap: 14px;
+  }
+
+  .ss-feature {
+    padding: 13px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 700px) {
+  .ss-game {
+    padding: 10px;
+  }
+
+  .ss-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 9px;
+  }
+
+  .ss-back {
+    min-height: 38px;
+    padding: 0 10px;
+  }
+
+  .ss-brand {
+    font-size: clamp(9px, 2.5vw, 12px);
+    letter-spacing: 1px;
+  }
+
+  .ss-round-pill {
+    min-height: 38px;
+    padding: 0 9px;
+    font-size: 9px;
+  }
+
+  .ss-hero h1 {
+    font-size: clamp(34px, 9vw, 54px);
+    letter-spacing: -1.5px;
+  }
+
+  .ss-board-wrap > .ss-stats {
+    gap: 2px;
+    padding: 10px 5px;
+  }
+
+  .ss-board-wrap > .ss-stats > div {
+    padding: 4px 3px;
+    text-align: center;
+  }
+
+  .ss-board-wrap > .ss-stats small {
+    font-size: clamp(7px, 1.5vw, 9px);
+    letter-spacing: .5px;
+  }
+
+  .ss-board-wrap > .ss-stats strong {
+    font-size: clamp(15px, 4vw, 21px);
+  }
+
+  .ss-board-wrap > .ss-stats .ss-lives {
+    font-size: clamp(13px, 3.5vw, 18px);
+    letter-spacing: 1px;
+  }
+
+  .ss-board {
+    height: clamp(370px, 105vw, 540px);
+    max-height: 560px;
+  }
+
+  .ss-board-top {
+    height: 36px;
+    padding-inline: 10px;
+    font-size: 8px;
+  }
+
+  .ss-board-footer {
+    justify-content: flex-start;
+    gap: 9px 14px;
+    padding: 11px;
+  }
+
+  .ss-board-footer span {
+    font-size: 9px;
+  }
+
+  .ss-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 13px;
+    padding: 13px;
+  }
+
+  .ss-instruction {
+    flex: 1 1 auto;
+  }
+
+  .ss-small-play {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ss-features {
+    grid-template-columns: 1fr;
+  }
+
+  .ss-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ss-footer-right {
+    width: 100%;
+  }
+
+  .ss-footer-right button {
+    flex: 1;
+  }
+}
+
+/* Standard and smaller phones */
+@media (max-width: 430px) {
+  .ss-game {
+    padding: 7px;
+  }
+
+  .ss-header {
+    gap: 5px;
+    padding: 7px;
+  }
+
+  .ss-back {
+    min-height: 35px;
+    padding: 0 8px;
+    font-size: 9px;
+  }
+
+  .ss-brand {
+    gap: 4px;
+    font-size: 8px;
+    letter-spacing: .6px;
+  }
+
+  .ss-brand-icon {
+    font-size: 16px;
+  }
+
+  .ss-round-pill {
+    min-height: 35px;
+    padding: 0 7px;
+    font-size: 8px;
+  }
+
+  .ss-kicker {
+    gap: 6px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .ss-new {
+    padding: 4px 6px;
+  }
+
+  .ss-hero h1 {
+    font-size: clamp(31px, 10vw, 43px);
+    letter-spacing: -1.2px;
+  }
+
+  .ss-tagline {
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .ss-board-wrap {
+    border-radius: 13px;
+  }
+
+  .ss-board-wrap > .ss-stats {
+    padding: 8px 3px;
+  }
+
+  .ss-board-wrap > .ss-stats > div {
+    padding-inline: 2px;
+  }
+
+  .ss-board-wrap > .ss-stats small {
+    font-size: 6.5px;
+    letter-spacing: .3px;
+  }
+
+  .ss-board-wrap > .ss-stats strong {
+    font-size: clamp(13px, 4vw, 17px);
+  }
+
+  .ss-board-wrap > .ss-stats .ss-lives {
+    font-size: 13px;
+  }
+
+  .ss-board {
+    height: clamp(350px, 112vw, 470px);
+    max-height: 490px;
+  }
+
+  .ss-board-top {
+    padding-inline: 8px;
+    font-size: 7px;
+  }
+
+  .ss-board-footer {
+    gap: 8px;
+    padding: 9px;
+  }
+
+  .ss-board-footer span {
+    font-size: 8px;
+  }
+
+  .ss-overlay {
+    padding: 10px;
+  }
+
+  .ss-overlay-card {
+    padding: 19px 15px;
+    border-radius: 16px;
+  }
+
+  .ss-overlay-card h2 {
+    font-size: 23px;
+  }
+
+  .ss-overlay-card p {
+    font-size: 11px;
+  }
+
+  .ss-play {
+    min-height: 47px;
+    padding-inline: 13px;
+    font-size: 11px;
+  }
+
+  .ss-controls {
+    padding: 11px;
+  }
+
+  .ss-instruction small {
+    font-size: 10px;
+  }
+
+  .ss-feature {
+    gap: 9px;
+    padding: 11px;
+  }
+
+  .ss-feature-icon {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+    font-size: 19px;
+  }
+
+  .ss-footer-right {
+    gap: 7px;
+  }
+
+  .ss-footer-right button {
+    min-width: 0;
+    padding-inline: 10px;
+    font-size: 9px;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 350px) {
+  .ss-brand {
+    font-size: 7px;
+  }
+
+  .ss-back {
+    font-size: 8px;
+  }
+
+  .ss-round-pill {
+    font-size: 7px;
+  }
+
+  .ss-board-wrap > .ss-stats small {
+    font-size: 6px;
+  }
+
+  .ss-board-wrap > .ss-stats strong {
+    font-size: 12px;
+  }
+
+  .ss-board {
+    height: 350px;
+  }
+
+  .ss-board-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ss-overlay-card {
+    padding: 14px 11px;
+  }
+}
+
+/* Landscape phones */
+@media (max-height: 520px) and (orientation: landscape) {
+  .ss-game {
+    padding: 7px 12px;
+  }
+
+  .ss-header {
+    margin-bottom: 10px;
+  }
+
+  .ss-hero {
+    margin-bottom: 10px;
+  }
+
+  .ss-hero h1 {
+    font-size: clamp(27px, 5vw, 40px);
+  }
+
+  .ss-tagline {
+    margin-top: 4px;
+  }
+
+  .ss-board {
+    height: min(68vh, 420px);
+    min-height: 260px;
+  }
+
+  .ss-overlay-card {
+    padding: 12px 20px;
+  }
+
+  .ss-overlay-icon {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 7px;
+    font-size: 19px;
+  }
+
+  .ss-overlay-card h2 {
+    margin: 5px 0;
+    font-size: 21px;
+  }
+
+  .ss-overlay-card p {
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+
+  .ss-play {
+    min-height: 40px;
+  }
+
+  .ss-hint {
+    margin-top: 8px;
+  }
+}
+
+/* Accessibility */
+@media (hover: none) and (pointer: coarse) {
+  .ss-play,
+  .ss-small-play,
+  .ss-footer-right button,
+  .ss-back {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .ss-play:hover,
+  .ss-small-play:hover,
+  .ss-footer-right button:hover {
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-game *,
+  .ss-game *::before,
+  .ss-game *::after {
+    scroll-behavior: auto !important;
+  }
+}

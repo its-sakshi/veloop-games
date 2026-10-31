@@ -710,3 +710,534 @@
     line-height: 1.8;
   }
 }
+/* =========================================
+   COSMO WARRIOR - RESPONSIVE ENHANCEMENTS
+   Desktop, laptop, tablet and mobile
+========================================= */
+
+/* Global sizing */
+.cw-shell,
+.cw-shell * {
+  box-sizing: border-box;
+}
+
+.cw-shell {
+  width: 100%;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip;
+  padding:
+    clamp(8px, 2vw, 18px)
+    clamp(8px, 3vw, 34px);
+}
+
+.cw-main {
+  width: 100%;
+  min-width: 0;
+}
+
+.cw-header,
+.cw-footer {
+  width: 100%;
+}
+
+.cw-intro,
+.cw-arena-section,
+.cw-gameover {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Intro screen */
+.cw-intro {
+  padding-inline: clamp(0px, 2vw, 18px);
+}
+
+.cw-preview {
+  width: 100%;
+  max-width: 780px;
+}
+
+.cw-feature-row {
+  width: 100%;
+}
+
+.cw-feature-row > div {
+  min-width: 0;
+}
+
+.cw-feature-row small {
+  overflow-wrap: anywhere;
+}
+
+.cw-intro h1 {
+  overflow-wrap: anywhere;
+}
+
+.cw-subtitle {
+  padding-inline: 8px;
+}
+
+/* Arena and HUD */
+.cw-arena-section {
+  max-width: 1180px;
+}
+
+.cw-hud {
+  width: 100%;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cw-hud-item {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.cw-hud-item strong {
+  overflow-wrap: anywhere;
+}
+
+.cw-arena-frame {
+  width: 100%;
+  min-width: 0;
+  padding: clamp(5px, 1vw, 10px);
+}
+
+.cw-arena-topline,
+.cw-arena-bottom {
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: clamp(7px, 0.75vw, 9px);
+}
+
+.cw-arena-topline span,
+.cw-arena-bottom span {
+  min-width: 0;
+}
+
+.cw-canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(300px, 58vh, 600px);
+  height: clamp(300px, 58dvh, 600px);
+  min-height: 0;
+  border-radius: 6px;
+  touch-action: none;
+}
+
+/* Results */
+.cw-results {
+  width: 100%;
+}
+
+.cw-results > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.cw-over-actions {
+  width: 100%;
+  align-items: center;
+}
+
+.cw-primary,
+.cw-secondary {
+  min-height: 44px;
+}
+
+/* Footer */
+.cw-footer {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Medium laptops and small desktops */
+@media (max-width: 1024px) {
+  .cw-arena-section {
+    max-width: 100%;
+  }
+
+  .cw-canvas {
+    height: clamp(320px, 55vh, 520px);
+    height: clamp(320px, 55dvh, 520px);
+  }
+
+  .cw-intro h1 {
+    font-size: clamp(28px, 5.5vw, 54px);
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .cw-shell {
+    padding: 12px;
+  }
+
+  .cw-header {
+    margin-bottom: 12px;
+  }
+
+  .cw-intro {
+    padding-top: 12px;
+  }
+
+  .cw-intro h1 {
+    font-size: clamp(27px, 6vw, 46px);
+  }
+
+  .cw-preview {
+    height: clamp(155px, 30vw, 220px);
+    margin-top: 16px;
+  }
+
+  .cw-feature-row {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    gap: 8px;
+  }
+
+  .cw-feature-row > div {
+    padding: 10px 14px;
+  }
+
+  .cw-hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .cw-hud-item {
+    padding: 9px 10px;
+  }
+
+  .cw-hud-item small {
+    font-size: 8px;
+  }
+
+  .cw-hud-item strong {
+    font-size: clamp(16px, 3vw, 21px);
+  }
+
+  .cw-arena-frame {
+    padding: 7px;
+  }
+
+  .cw-canvas {
+    height: 55vh;
+    height: 55dvh;
+    min-height: 320px;
+    max-height: 520px;
+  }
+
+  .cw-mobile-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 9px;
+  }
+
+  .cw-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cw-footer {
+    justify-content: center;
+    text-align: center;
+    gap: 8px 18px;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .cw-shell {
+    padding: 8px;
+  }
+
+  .cw-header {
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+  }
+
+  .cw-back {
+    padding: 9px 10px;
+    font-size: 9px;
+  }
+
+  .cw-brand {
+    justify-self: end;
+    gap: 5px;
+    font-size: clamp(11px, 3.5vw, 15px);
+    letter-spacing: 0.03em;
+  }
+
+  .cw-brand-icon {
+    font-size: 17px;
+  }
+
+  .cw-eyebrow {
+    gap: 7px;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+
+  .cw-eyebrow span {
+    width: 18px;
+  }
+
+  .cw-intro h1 {
+    font-size: clamp(25px, 8vw, 36px);
+    line-height: 1.15;
+  }
+
+  .cw-subtitle {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .cw-preview {
+    height: 165px;
+    margin: 16px auto 12px;
+    border-radius: 12px;
+  }
+
+  .cw-planet-one {
+    width: 48px;
+    height: 48px;
+  }
+
+  .cw-planet-two {
+    width: 30px;
+    height: 30px;
+  }
+
+  .cw-feature-row {
+    margin-bottom: 15px;
+  }
+
+  .cw-feature-row > div {
+    grid-template-columns: 28px 1fr;
+    padding: 9px 10px;
+  }
+
+  .cw-feature-row span {
+    font-size: 19px;
+  }
+
+  .cw-feature-row b {
+    font-size: 9px;
+  }
+
+  .cw-feature-row small {
+    font-size: 10px;
+  }
+
+  .cw-primary {
+    width: min(100%, 290px);
+    min-height: 46px;
+    padding: 12px 16px;
+    font-size: 10px;
+  }
+
+  .cw-hint {
+    max-width: 330px;
+    padding: 0 8px;
+    font-size: 8px;
+    line-height: 1.9;
+  }
+
+  .cw-hud {
+    gap: 6px;
+  }
+
+  .cw-hud-item {
+    padding: 8px;
+    border-radius: 8px;
+  }
+
+  .cw-hud-item small {
+    font-size: 7px;
+    letter-spacing: 0.06em;
+  }
+
+  .cw-hud-item strong {
+    font-size: 16px;
+  }
+
+  .cw-hud-item strong i {
+    font-size: 9px;
+  }
+
+  .cw-lives {
+    font-size: 14px !important;
+    letter-spacing: 1px;
+  }
+
+  .cw-arena-frame {
+    padding: 5px;
+    border-radius: 9px;
+  }
+
+  .cw-arena-topline,
+  .cw-arena-bottom {
+    gap: 5px;
+    font-size: 7px;
+    letter-spacing: 0.02em;
+  }
+
+  .cw-canvas {
+    height: 52vh;
+    height: 52dvh;
+    min-height: 290px;
+    max-height: 450px;
+  }
+
+  .cw-mobile-controls {
+    font-size: 8px;
+    justify-content: space-between;
+    padding-top: 9px;
+  }
+
+  .cw-gameover {
+    padding: 22px 4px;
+  }
+
+  .cw-gameover h2 {
+    font-size: clamp(20px, 6vw, 29px);
+  }
+
+  .cw-gameover > p {
+    font-size: 13px;
+  }
+
+  .cw-results {
+    gap: 7px;
+    margin: 16px auto;
+  }
+
+  .cw-results > div {
+    padding: 10px 5px;
+  }
+
+  .cw-results small {
+    font-size: 7px;
+  }
+
+  .cw-results strong {
+    font-size: 15px;
+  }
+
+  .cw-over-actions {
+    flex-direction: column;
+  }
+
+  .cw-secondary {
+    width: min(100%, 290px);
+  }
+
+  .cw-footer {
+    font-size: 7px;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .cw-shell {
+    padding: 6px;
+  }
+
+  .cw-brand {
+    font-size: 10px;
+  }
+
+  .cw-back {
+    padding: 8px;
+    font-size: 8px;
+  }
+
+  .cw-hud-item {
+    padding: 7px 6px;
+  }
+
+  .cw-hud-item small {
+    font-size: 6px;
+  }
+
+  .cw-hud-item strong {
+    font-size: 14px;
+  }
+
+  .cw-canvas {
+    height: 48vh;
+    height: 48dvh;
+    min-height: 270px;
+  }
+
+  .cw-arena-topline,
+  .cw-arena-bottom {
+    font-size: 6px;
+  }
+
+  .cw-mobile-controls {
+    font-size: 7px;
+  }
+
+  .cw-results small {
+    font-size: 6px;
+  }
+}
+
+/* Short landscape screens */
+@media (max-height: 520px) and (orientation: landscape) {
+  .cw-shell {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .cw-header {
+    margin-bottom: 7px;
+  }
+
+  .cw-canvas {
+    height: 62vh;
+    height: 62dvh;
+    min-height: 220px;
+    max-height: 360px;
+  }
+
+  .cw-intro {
+    padding-top: 4px;
+  }
+
+  .cw-preview {
+    height: 130px;
+    margin: 10px auto;
+  }
+
+  .cw-feature-row {
+    margin-bottom: 10px;
+  }
+
+  .cw-footer {
+    margin-top: 8px;
+  }
+}
+
+/* Keyboard and touch accessibility */
+.cw-back:focus-visible,
+.cw-primary:focus-visible,
+.cw-secondary:focus-visible {
+  outline: 2px solid var(--cw-cyan);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-shell *,
+  .cw-shell *::before,
+  .cw-shell *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
