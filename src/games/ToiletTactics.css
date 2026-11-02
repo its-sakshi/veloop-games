@@ -1,0 +1,1056 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Rajdhani:wght@400;500;600;700;800&display=swap');
+
+/* =========================================
+   TOILET TACTICS — BASE STYLES
+========================================= */
+
+.tt-shell {
+  --tt-cyan: #4be5ff;
+  --tt-gold: #ffc34d;
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100vh;
+  min-width: 0;
+  overflow-x: clip;
+  padding: 17px clamp(10px, 3vw, 32px) 14px;
+  color: #f5f8ff;
+  background: #050914;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.tt-shell,
+.tt-shell * {
+  box-sizing: border-box;
+}
+
+.tt-glow {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(75px);
+  opacity: .2;
+}
+
+.tt-glow-one {
+  width: 360px;
+  height: 300px;
+  top: 5%;
+  left: -130px;
+  background: #087bce;
+}
+
+.tt-glow-two {
+  width: 340px;
+  height: 300px;
+  right: -120px;
+  bottom: 5%;
+  background: #b04a16;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.tt-header {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tt-back {
+  border: 1px solid #31516e;
+  border-radius: 8px;
+  padding: 9px 12px;
+  min-height: 40px;
+  background: #0b1830;
+  color: #c9eaff;
+  font: 700 10px 'Orbitron', sans-serif;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.tt-back:hover {
+  border-color: var(--tt-cyan);
+  box-shadow: 0 0 16px #36dfff33;
+}
+
+.tt-logo {
+  font: 900 clamp(14px, 2vw, 20px) 'Orbitron', sans-serif;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.tt-logo span {
+  color: var(--tt-gold);
+  margin-right: 7px;
+}
+
+.tt-logo b {
+  color: var(--tt-gold);
+}
+
+.tt-header-tag {
+  color: #7993b5;
+  font: 700 9px 'Orbitron', sans-serif;
+  letter-spacing: .13em;
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.tt-main {
+  width: 100%;
+  max-width: 1180px;
+  min-height: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tt-intro {
+  width: 100%;
+  text-align: center;
+  padding: 8px 0 20px;
+  animation: tt-rise .45s ease both;
+}
+
+.tt-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--tt-cyan);
+  font: 700 10px 'Orbitron', sans-serif;
+  letter-spacing: .22em;
+}
+
+.tt-kicker i {
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tt-cyan));
+}
+
+.tt-kicker i:last-child {
+  transform: rotate(180deg);
+}
+
+.tt-intro h1 {
+  margin: 12px 0 4px;
+  font: 900 clamp(34px, 6vw, 68px)/1.05 'Orbitron', sans-serif;
+  letter-spacing: -.05em;
+  text-shadow: 0 4px #25354d, 0 0 28px #3ccfff44;
+}
+
+.tt-intro h1 em {
+  color: var(--tt-gold);
+  font-style: normal;
+  text-shadow: 0 4px #71420c, 0 0 24px #ffb23b55;
+}
+
+.tt-lead {
+  margin: 0;
+  color: #aebbd0;
+  font-size: clamp(14px, 2vw, 18px);
+}
+
+/* =========================================
+   HERO ILLUSTRATION
+========================================= */
+
+.tt-hero {
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  height: clamp(180px, 29vw, 265px);
+  margin: 22px auto 16px;
+  overflow: hidden;
+  border: 1px solid #317aa0;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at 50% 80%, #165b7d99, transparent 45%),
+    linear-gradient(145deg, #102c48, #071426 68%, #1a1726);
+  box-shadow: inset 0 0 40px #23c8ff1c, 0 0 24px #159bdc22;
+}
+
+.tt-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#b9eaff 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: .45;
+}
+
+.tt-building {
+  position: absolute;
+  bottom: 0;
+  width: 18%;
+  background: linear-gradient(90deg, #122b43, #1c4560, #10243a);
+  border: 1px solid #28506b;
+}
+
+.tt-building-a {
+  height: 70%;
+  left: 8%;
+  clip-path: polygon(12% 0, 100% 12%, 100% 100%, 0 100%, 0 18%);
+}
+
+.tt-building-b {
+  height: 55%;
+  right: 9%;
+  width: 23%;
+  clip-path: polygon(0 10%, 82% 0, 100% 20%, 100% 100%, 0 100%);
+}
+
+.tt-drone {
+  position: absolute;
+  right: 17%;
+  top: 17%;
+  color: #ff6c62;
+  font-size: 42px;
+  text-shadow: 0 0 18px #ff4c45;
+  transform: rotate(-15deg);
+}
+
+.tt-toilet-hero {
+  position: absolute;
+  left: 51%;
+  top: 42%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 116px;
+  border: 5px solid #aebfca;
+  border-radius: 48% 48% 30% 30%;
+  background: linear-gradient(145deg, #f3f4e9, #879baa 70%);
+  box-shadow: 0 0 25px #69dfff55, inset -12px -8px 15px #314a61;
+}
+
+.tt-toilet-hero::before {
+  content: "";
+  position: absolute;
+  top: -31px;
+  left: 25px;
+  width: 72px;
+  height: 42px;
+  border: 5px solid #b6c6d0;
+  border-radius: 13px 13px 5px 5px;
+  background: linear-gradient(135deg, #fff, #8495a3);
+}
+
+.tt-toilet-eyes {
+  position: absolute;
+  top: 28px;
+  left: 29px;
+  color: #17263a;
+  font-size: 17px;
+}
+
+.tt-toilet-mouth {
+  position: absolute;
+  top: 50px;
+  left: 47px;
+  color: #a32d34;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+.tt-guard-hero {
+  position: absolute;
+  left: 23%;
+  bottom: 13%;
+  font-size: 64px;
+  color: #7eeaff;
+  text-shadow: 0 0 24px #36dfff;
+}
+
+.tt-laser-hero {
+  position: absolute;
+  left: 31%;
+  bottom: 27%;
+  width: 21%;
+  height: 3px;
+  transform: rotate(-8deg);
+  background: #7af2ff;
+  box-shadow: 0 0 14px 5px #32dfff;
+}
+
+.tt-hero-caption {
+  position: absolute;
+  bottom: 12px;
+  left: 0;
+  right: 0;
+  color: #9bdfff;
+  font: 700 9px 'Orbitron', sans-serif;
+  letter-spacing: .2em;
+  text-shadow: 0 0 10px #27cfff;
+  text-align: center;
+}
+
+/* =========================================
+   FEATURE CARDS
+========================================= */
+
+.tt-feature-grid {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.tt-feature-grid > div {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid #34465e;
+  border-radius: 9px;
+  background: #0b1425cc;
+}
+
+.tt-feature-grid span {
+  grid-row: 1 / 3;
+  color: var(--tt-gold);
+  font-size: 23px;
+}
+
+.tt-feature-grid b {
+  color: #f4f7ff;
+  font: 700 9px 'Orbitron', sans-serif;
+  letter-spacing: .05em;
+}
+
+.tt-feature-grid small {
+  color: #8ea3bd;
+  font-size: 12px;
+}
+
+/* =========================================
+   PLAY BUTTON
+========================================= */
+
+.tt-play {
+  min-width: 235px;
+  border: 1px solid #a8ff9b;
+  border-radius: 9px;
+  padding: 14px 26px;
+  color: #092015;
+  background: linear-gradient(180deg, #b7ff73, #57d633 55%, #229b25);
+  box-shadow: 0 0 24px #61ed5355, inset 0 1px #efffc9;
+  font: 900 13px 'Orbitron', sans-serif;
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.tt-play:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 32px #61ed5388;
+}
+
+.tt-play span {
+  margin-left: 12px;
+  font-size: 17px;
+}
+
+.tt-instructions {
+  margin: 11px 0 0;
+  color: #778ba8;
+  font: 700 8px 'Orbitron', sans-serif;
+  letter-spacing: .09em;
+}
+
+/* =========================================
+   GAMEPLAY
+========================================= */
+
+.tt-game {
+  width: 100%;
+  max-width: 1100px;
+  min-width: 0;
+  margin: 0 auto;
+  animation: tt-rise .3s ease both;
+}
+
+/* HUD */
+
+.tt-hud {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
+.tt-hud > div {
+  min-width: 0;
+  padding: 8px 11px;
+  border: 1px solid #2b4565;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #101f36, #091426);
+}
+
+.tt-hud small {
+  display: block;
+  color: #829bb7;
+  font: 700 8px 'Orbitron', sans-serif;
+  letter-spacing: .1em;
+}
+
+.tt-hud strong {
+  display: block;
+  margin-top: 4px;
+  color: #f3f7ff;
+  font: 800 clamp(15px, 2.3vw, 22px) 'Orbitron', sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.tt-hud > div:first-child strong {
+  color: var(--tt-gold);
+}
+
+.tt-hud .tt-time {
+  color: var(--tt-cyan);
+}
+
+.tt-hud strong i {
+  color: #8499b5;
+  font-size: 10px;
+  font-style: normal;
+}
+
+.tt-hud .tt-health-number {
+  color: #75f5a2;
+}
+
+/* Health bar */
+
+.tt-health-track {
+  height: 5px;
+  margin-bottom: 9px;
+  overflow: hidden;
+  border-radius: 9px;
+  background: #26354a;
+}
+
+.tt-health-track span {
+  display: block;
+  height: 100%;
+  border-radius: 9px;
+  background: linear-gradient(90deg, #ff5e65, #ffd35e, #65ed9b);
+  transition: width .15s;
+}
+
+/* =========================================
+   CANVAS ARENA
+========================================= */
+
+.tt-canvas-wrap {
+  width: 100%;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid #347c9a;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #10223b, #070e1c);
+  box-shadow: 0 0 24px #1ba5d52a;
+}
+
+.tt-canvas-label,
+.tt-canvas-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 4px 8px;
+  color: #89a7c5;
+  font: 700 8px 'Orbitron', sans-serif;
+  letter-spacing: .08em;
+}
+
+.tt-canvas-label span:last-child {
+  color: #ffbd64;
+}
+
+.tt-canvas {
+  display: block;
+  width: 100%;
+  height: min(62vh, 560px);
+  min-height: 370px;
+  max-width: 100%;
+  border-radius: 6px;
+  background: #081426;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.tt-canvas-foot {
+  padding: 8px 4px 1px;
+}
+
+.tt-canvas-foot span:first-child {
+  color: var(--tt-gold);
+}
+
+/* Mobile actions */
+
+.tt-mobile-actions {
+  display: none;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 9px;
+  color: #9bb0c9;
+  font: 700 8px 'Orbitron', sans-serif;
+}
+
+.tt-mobile-actions button {
+  border: 1px solid #426486;
+  border-radius: 7px;
+  padding: 9px 11px;
+  background: #10223b;
+  color: #dff8ff;
+  font: 700 9px 'Orbitron', sans-serif;
+  touch-action: none;
+  cursor: pointer;
+}
+
+.tt-mobile-actions button:first-of-type {
+  border-color: #8ceaff;
+  background: #123b50;
+}
+
+/* =========================================
+   RESULTS
+========================================= */
+
+.tt-over {
+  text-align: center;
+  padding: 35px 12px;
+  animation: tt-rise .35s ease both;
+}
+
+.tt-trophy {
+  margin: 15px auto;
+  font-size: 54px;
+  filter: drop-shadow(0 0 18px #ffc34d77);
+}
+
+.tt-over h2 {
+  margin: 8px 0;
+  color: #fff;
+  font: 900 clamp(26px, 5vw, 44px) 'Orbitron', sans-serif;
+  text-shadow: 0 0 22px #32cfff55;
+}
+
+.tt-over > p {
+  color: #a6b8d0;
+}
+
+.tt-results {
+  width: 100%;
+  max-width: 680px;
+  margin: 24px auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.tt-results > div {
+  min-width: 0;
+  padding: 14px 7px;
+  border: 1px solid #304866;
+  border-radius: 9px;
+  background: #0d1a2d;
+}
+
+.tt-results small {
+  display: block;
+  color: #829bb7;
+  font: 700 8px 'Orbitron', sans-serif;
+}
+
+.tt-results strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--tt-gold);
+  font: 800 clamp(16px, 3vw, 23px) 'Orbitron', sans-serif;
+  overflow-wrap: anywhere;
+}
+
+.tt-return {
+  display: block;
+  margin: 12px auto 0;
+  border: 1px solid #405d7d;
+  border-radius: 8px;
+  padding: 12px 20px;
+  background: #0b192b;
+  color: #c5d8ed;
+  font: 700 10px 'Orbitron', sans-serif;
+  cursor: pointer;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.tt-footer {
+  width: 100%;
+  max-width: 1180px;
+  margin: 17px auto 0;
+  padding-top: 11px;
+  border-top: 1px solid #24364c;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #637d9c;
+  font: 700 8px 'Orbitron', sans-serif;
+  letter-spacing: .1em;
+}
+
+.tt-footer b {
+  color: var(--tt-gold);
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes tt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   LARGE DESKTOP
+========================================= */
+
+@media (min-width: 1000px) {
+  .tt-main {
+    min-height: 640px;
+  }
+}
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 900px) {
+  .tt-shell {
+    padding: 14px 16px;
+  }
+
+  .tt-main {
+    min-height: 0;
+  }
+
+  .tt-game {
+    max-width: 100%;
+  }
+
+  .tt-hud {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .tt-hud > div {
+    padding: 9px 8px;
+  }
+
+  .tt-hud small {
+    font-size: 8px;
+  }
+
+  .tt-hud strong {
+    font-size: clamp(13px, 2.5vw, 19px);
+  }
+
+  .tt-canvas {
+    height: 52vh;
+    min-height: 300px;
+    max-height: 480px;
+  }
+
+  .tt-feature-grid {
+    gap: 7px;
+  }
+
+  .tt-feature-grid > div {
+    padding: 9px 8px;
+  }
+}
+
+/* =========================================
+   MOBILE PHONES
+========================================= */
+
+@media (max-width: 650px) {
+  .tt-shell {
+    padding: 10px 10px 14px;
+  }
+
+  .tt-header {
+    margin-bottom: 15px;
+    gap: 8px;
+  }
+
+  .tt-back {
+    flex-shrink: 0;
+    min-height: 38px;
+    padding: 9px 10px;
+    font-size: 9px;
+  }
+
+  .tt-logo {
+    font-size: clamp(11px, 3.8vw, 17px);
+    letter-spacing: 0;
+  }
+
+  .tt-header-tag {
+    display: none;
+  }
+
+  .tt-main {
+    min-height: 0;
+  }
+
+  .tt-intro {
+    padding: 10px 0 18px;
+  }
+
+  .tt-intro h1 {
+    font-size: clamp(30px, 8vw, 48px);
+    line-height: 1.15;
+  }
+
+  .tt-kicker {
+    font-size: 8px;
+    letter-spacing: .12em;
+  }
+
+  .tt-lead {
+    max-width: 340px;
+    margin: 8px auto;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .tt-hero {
+    height: clamp(155px, 48vw, 220px);
+    margin: 16px auto;
+  }
+
+  .tt-toilet-hero {
+    transform: translate(-50%, -50%) scale(.72);
+  }
+
+  .tt-drone {
+    right: 12%;
+    font-size: 32px;
+  }
+
+  .tt-guard-hero {
+    left: 12%;
+    bottom: 13%;
+    font-size: 44px;
+  }
+
+  .tt-laser-hero {
+    left: 22%;
+    width: 30%;
+  }
+
+  .tt-hero-caption {
+    bottom: 8px;
+    font-size: 7px;
+    letter-spacing: .1em;
+  }
+
+  /* Stack feature cards */
+
+  .tt-feature-grid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    gap: 7px;
+    margin-bottom: 16px;
+  }
+
+  .tt-feature-grid > div {
+    grid-template-columns: 38px minmax(0, 1fr);
+    padding: 9px 11px;
+  }
+
+  .tt-feature-grid span {
+    font-size: 22px;
+  }
+
+  .tt-feature-grid b {
+    font-size: 9px;
+  }
+
+  .tt-feature-grid small {
+    font-size: 12px;
+  }
+
+  .tt-play {
+    width: min(100%, 320px);
+    min-width: 0;
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+
+  .tt-instructions {
+    max-width: 320px;
+    margin: 12px auto 0;
+    font-size: 7px;
+    line-height: 1.7;
+  }
+
+  /* Two-column gameplay HUD */
+
+  .tt-hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    margin-bottom: 9px;
+  }
+
+  .tt-hud > div {
+    padding: 9px 10px;
+    border-radius: 8px;
+  }
+
+  .tt-hud small {
+    font-size: 8px;
+    letter-spacing: .06em;
+  }
+
+  .tt-hud strong {
+    font-size: clamp(16px, 5vw, 21px);
+  }
+
+  .tt-hud strong i {
+    font-size: 10px;
+  }
+
+  .tt-health-track {
+    height: 7px;
+    margin-bottom: 10px;
+  }
+
+  /* Arena */
+
+  .tt-canvas-wrap {
+    padding: 6px;
+    border-radius: 9px;
+  }
+
+  .tt-canvas-label,
+  .tt-canvas-foot {
+    gap: 5px;
+    font-size: 7px;
+    letter-spacing: .02em;
+  }
+
+  .tt-canvas {
+    width: 100%;
+    height: 54vh;
+    min-height: 280px;
+    max-height: 430px;
+  }
+
+  /* Touch controls */
+
+  .tt-mobile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+    padding-top: 12px;
+  }
+
+  .tt-mobile-actions > span {
+    width: 100%;
+    text-align: center;
+    font-size: 8px;
+    line-height: 1.5;
+  }
+
+  .tt-mobile-actions button {
+    flex: 1;
+    min-width: 115px;
+    min-height: 42px;
+    padding: 10px 8px;
+    font-size: 9px;
+  }
+
+  /* Results */
+
+  .tt-over {
+    padding: 25px 8px;
+  }
+
+  .tt-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 18px auto;
+  }
+
+  .tt-results > div {
+    padding: 13px 6px;
+  }
+
+  .tt-results small {
+    font-size: 7px;
+  }
+
+  .tt-results strong {
+    font-size: clamp(15px, 4.5vw, 21px);
+  }
+
+  .tt-return {
+    width: min(100%, 320px);
+  }
+
+  /* Footer */
+
+  .tt-footer {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 8px 16px;
+    font-size: 7px;
+  }
+
+  .tt-footer span:nth-child(2) {
+    display: none;
+  }
+}
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 390px) {
+  .tt-shell {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .tt-logo {
+    font-size: 11px;
+  }
+
+  .tt-intro h1 {
+    font-size: 29px;
+  }
+
+  .tt-kicker {
+    font-size: 8px;
+    letter-spacing: .12em;
+  }
+
+  .tt-hero {
+    height: 165px;
+  }
+
+  .tt-toilet-hero {
+    transform: translate(-50%, -50%) scale(.62);
+  }
+
+  .tt-guard-hero {
+    font-size: 38px;
+  }
+
+  .tt-hud {
+    gap: 5px;
+  }
+
+  .tt-hud > div {
+    padding: 8px 7px;
+  }
+
+  .tt-hud small {
+    font-size: 7px;
+  }
+
+  .tt-hud strong {
+    font-size: 14px;
+  }
+
+  .tt-canvas-label,
+  .tt-canvas-foot {
+    font-size: 6px;
+  }
+
+  .tt-canvas {
+    min-height: 260px;
+  }
+
+  .tt-mobile-actions button {
+    flex: 1 1 40%;
+    min-width: 0;
+    padding: 10px 7px;
+    font-size: 9px;
+  }
+
+  .tt-results strong {
+    font-size: 15px;
+  }
+}
+
+/* =========================================
+   LANDSCAPE PHONES
+========================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+  .tt-shell {
+    padding-top: 7px;
+  }
+
+  .tt-main {
+    min-height: 0;
+  }
+
+  .tt-canvas {
+    height: 65vh;
+    min-height: 210px;
+    max-height: 350px;
+  }
+
+  .tt-hero {
+    height: 150px;
+  }
+
+  .tt-mobile-actions {
+    padding-top: 6px;
+  }
+}
+
+/* =========================================
+   TOUCH DEVICES
+========================================= */
+
+@media (hover: none) {
+  .tt-play:hover {
+    transform: none;
+  }
+}
