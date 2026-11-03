@@ -6,6 +6,10 @@ import Bowlexa from '../games/Bowlexa'
 import BlockCrush from '../games/BlockCrush'
 import SliceStorm from '../games/SliceStorm'
 import CosmoWarrior from '../games/CosmoWarrior'
+import ToiletTactics from '../games/ToiletTactics'
+import WordHunt from '../games/WordHunt'
+
+
 function GamePage({ game, onBack, tokenBalance }) {
   const [gameOverScore, setGameOverScore] = useState(null)
 
@@ -37,6 +41,14 @@ function GamePage({ game, onBack, tokenBalance }) {
   if (game.id === 6) {
   return <CosmoWarrior key={game.id} onBack={onBack} />
   }
+  if (game.id === 7) {
+  return <ToiletTactics key={game.id} onBack={onBack} />
+  }
+  if (game.id === 8) {
+  return <WordHunt key={game.id} onBack={onBack} />
+  }
+  
+
 
   return (
     <main
