@@ -8,8 +8,10 @@ import SliceStorm from '../games/SliceStorm'
 import CosmoWarrior from '../games/CosmoWarrior'
 import ToiletTactics from '../games/ToiletTactics'
 import WordHunt from '../games/WordHunt'
-
-
+import BubbleBlast from '../games/BubbleBlast'
+import MergeMaster from '../games/MergeMaster'
+import Wormzy from '../games/Wormzy'
+import AquaFill from '../games/AquaFill'
 function GamePage({ game, onBack, tokenBalance }) {
   const [gameOverScore, setGameOverScore] = useState(null)
 
@@ -47,7 +49,18 @@ function GamePage({ game, onBack, tokenBalance }) {
   if (game.id === 8) {
   return <WordHunt key={game.id} onBack={onBack} />
   }
-  
+  if (game.id === 9) {
+  return <BubbleBlast key={game.id} onBack={onBack} />
+  }
+  if (game.id === 10) {
+  return <MergeMaster key={game.id} onBack={onBack} />
+  }
+  if (game.id === 11) {
+  return <Wormzy key={game.id} onBack={onBack} />
+  }
+  if (game.id === 12) {
+  return <AquaFill key={game.id} onBack={onBack} />
+  }
 
 
   return (
