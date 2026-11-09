@@ -56,8 +56,8 @@ const LEVELS = [
       { x: 390, y: 270, w: 220, h: 18 },
       { x: 260, y: 375, w: 180, h: 18 },
     ],
-    target: 60,
-    hint: "Guide the water toward the glass on the left.",
+    target: 45,
+    hint: "Guide the water down and to the left, avoiding the platforms.",
   },
   {
     source: { x: 90, y: 75 },

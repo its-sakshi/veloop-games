@@ -12,6 +12,7 @@ import BubbleBlast from '../games/BubbleBlast'
 import MergeMaster from '../games/MergeMaster'
 import Wormzy from '../games/Wormzy'
 import AquaFill from '../games/AquaFill'
+import RealmClash from '../games/RealmClash'
 function GamePage({ game, onBack, tokenBalance }) {
   const [gameOverScore, setGameOverScore] = useState(null)
 
@@ -60,6 +61,9 @@ function GamePage({ game, onBack, tokenBalance }) {
   }
   if (game.id === 12) {
   return <AquaFill key={game.id} onBack={onBack} />
+  }
+  if (game.id === 13) {
+  return <RealmClash key={game.id} onBack={onBack} />
   }
 
 

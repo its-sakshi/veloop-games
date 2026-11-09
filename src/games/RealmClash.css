@@ -1,0 +1,532 @@
+/* =========================================
+   REALM CLASH - STYLES & LAYOUT
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.realmclash-game {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px 16px;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(255, 185, 35, 0.15), transparent 45%),
+    radial-gradient(circle at 10% 85%, rgba(13, 85, 185, 0.2), transparent 40%),
+    linear-gradient(150deg, #090e1a 0%, #121c33 50%, #070b14 100%);
+  color: #ffffff;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.realmclash-shell {
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.realmclash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.realmclash-header-main {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+}
+
+.realmclash-back {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 2px solid #ffcc00;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #2b1f09, #140e04);
+  color: #ffda66;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.realmclash-back:hover {
+  background: linear-gradient(145deg, #44320e, #221806);
+  border-color: #ffe680;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 204, 0, 0.3);
+}
+
+.realmclash-eyebrow {
+  display: block;
+  margin-bottom: 3px;
+  color: #ffaa00;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.realmclash-header h1 {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Impact", "Arial Black", sans-serif;
+  font-size: clamp(32px, 5.5vw, 48px);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.realmclash-header h1 span {
+  color: #ffb700;
+  text-shadow: 0 0 15px rgba(255, 183, 0, 0.6);
+}
+
+.realmclash-header p {
+  margin: 6px 0 0;
+  color: #a4c2e6;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.realmclash-gold-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 10px 18px;
+  border: 2px solid rgba(255, 196, 0, 0.6);
+  border-radius: 14px;
+  background: rgba(30, 22, 10, 0.85);
+  color: #ffd700;
+  font-size: 16px;
+  font-weight: 900;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   TOP STATS BAR
+========================================= */
+
+.realmclash-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.realmclash-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 204, 0, 0.25);
+  border-radius: 14px;
+  background: rgba(16, 25, 45, 0.7);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.realmclash-stats span {
+  color: #79a6db;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.realmclash-stats strong {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+/* =========================================
+   MAIN GAME BOARD PANEL
+========================================= */
+
+.realmclash-panel {
+  width: 100%;
+  padding: 18px;
+  border: 2px solid rgba(255, 196, 0, 0.3);
+  border-radius: 20px;
+  background: linear-gradient(150deg, #121c31, #0a101d);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.realmclash-board-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.realmclash-board-heading strong {
+  display: block;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.realmclash-board-heading small {
+  display: block;
+  margin-top: 4px;
+  color: #9cbde6;
+  font-size: 12px;
+}
+
+.realmclash-btn-shop {
+  padding: 8px 16px;
+  border: 1px solid #ffd700;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #3d2c06, #1f1602);
+  color: #ffe680;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.realmclash-btn-shop:hover {
+  background: linear-gradient(145deg, #5c4309, #332403);
+  color: #ffffff;
+}
+
+/* CANVAS STYLES */
+
+.realmclash-board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 3px solid #2a416a;
+  border-radius: 14px;
+  background: #0f172a;
+  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+}
+
+.realmclash-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+/* =========================================
+   OVERLAYS (INSTRUCTION / WIN / LOSS / SHOP)
+========================================= */
+
+.realmclash-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(4, 7, 14, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.realmclash-card {
+  width: min(100%, 420px);
+  padding: 26px 22px;
+  border: 2px solid rgba(255, 204, 0, 0.7);
+  border-radius: 20px;
+  background: linear-gradient(150deg, #1a2744, #0b1220);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  text-align: center;
+  animation: realm-card-enter 0.3s ease-out;
+}
+
+.realmclash-instruction-card {
+  width: min(100%, 460px);
+  text-align: left;
+}
+
+@keyframes realm-card-enter {
+  from { opacity: 0; transform: translateY(15px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.realmclash-card-icon {
+  margin-bottom: 8px;
+  font-size: 44px;
+  text-align: center;
+}
+
+.realmclash-card h2 {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-family: "Impact", sans-serif;
+  font-size: 28px;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+.realmclash-card p {
+  margin: 0 0 16px;
+  color: #a4c4ed;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* INSTRUCTION FACTIONS LIST */
+
+.realmclash-factions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.realmclash-faction-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: rgba(10, 16, 28, 0.6);
+}
+
+.realmclash-dot {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.realmclash-dot.blue { background: #3b82f6; color: rgba(59, 130, 246, 0.8); }
+.realmclash-dot.red { background: #ef4444; color: rgba(239, 68, 68, 0.8); }
+.realmclash-dot.grey { background: #9ca3af; color: rgba(156, 163, 175, 0.8); }
+
+.realmclash-faction-item strong {
+  display: block;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.realmclash-faction-item small {
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* INSTRUCTION ATTACK BOX */
+
+.realmclash-attack-rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding: 12px 14px;
+  border: 1px dashed rgba(255, 204, 0, 0.4);
+  border-radius: 12px;
+  background: rgba(43, 31, 9, 0.4);
+}
+
+.realmclash-attack-rule span {
+  font-size: 24px;
+}
+
+.realmclash-attack-rule strong {
+  display: block;
+  color: #ffda66;
+  font-size: 13px;
+}
+
+.realmclash-attack-rule small {
+  color: #cbd5e1;
+  font-size: 11px;
+}
+
+.realmclash-start-btn {
+  width: 100%;
+  font-size: 15px;
+  min-height: 50px;
+}
+
+.realmclash-rewards {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  color: #ffd700;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.realmclash-upgrades-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0 22px;
+  text-align: left;
+}
+
+.realmclash-upgrade-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 204, 0, 0.2);
+  border-radius: 12px;
+  background: rgba(10, 16, 28, 0.6);
+}
+
+.realmclash-upgrade-item strong {
+  display: block;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.realmclash-upgrade-item small {
+  color: #8daed8;
+  font-size: 11px;
+}
+
+.realmclash-upgrade-item button {
+  padding: 6px 12px;
+  border: 1px solid #ffcc00;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #382705, #1c1302);
+  color: #ffd700;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.realmclash-upgrade-item button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   BOTTOM CONTROLS & INSTRUCTIONS
+========================================= */
+
+.realmclash-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.realmclash-btn-primary,
+.realmclash-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.realmclash-btn-primary {
+  border: 1px solid #ffe066;
+  background: linear-gradient(145deg, #e69d00, #b37400);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(230, 157, 0, 0.3);
+}
+
+.realmclash-btn-primary:hover {
+  background: linear-gradient(145deg, #ffb300, #cc8500);
+  transform: translateY(-2px);
+}
+
+.realmclash-btn-secondary {
+  border: 1px solid rgba(121, 166, 219, 0.4);
+  background: rgba(16, 25, 45, 0.8);
+  color: #c4dcf8;
+}
+
+.realmclash-btn-secondary:hover {
+  border-color: #79a6db;
+  background: #192642;
+  transform: translateY(-2px);
+}
+
+.realmclash-instructions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 204, 0, 0.2);
+  border-radius: 14px;
+  background: rgba(14, 22, 38, 0.6);
+}
+
+.realmclash-instruction-icon {
+  font-size: 26px;
+}
+
+.realmclash-instructions strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.realmclash-instructions p {
+  margin: 0;
+  color: #8faed6;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   RESPONSIVE MEDIA QUERIES
+========================================= */
+
+@media (max-width: 768px) {
+  .realmclash-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .realmclash-header h1 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 500px) {
+  .realmclash-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .realmclash-gold-badge {
+    align-self: flex-end;
+  }
+
+  .realmclash-actions {
+    grid-template-columns: 1fr;
+  }
+}
