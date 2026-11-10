@@ -1121,3 +1121,893 @@ a:focus-visible {
     font-size: 40px;
   }
 }
+
+
+/* =========================================================
+   VELOOP HOMEPAGE — LIGHT, POLISHED THEME
+   Palette: warm ivory, indigo, lavender and soft coral
+   Appended overrides preserve the existing layout/behaviour.
+   ========================================================= */
+
+.veloop-page {
+  --page-bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface-soft: #efedf7;
+  --ink: #292a3a;
+  --muted: #77788b;
+  --line: #e7e3ec;
+  --indigo: #4b4b80;
+  --indigo-dark: #393963;
+  --lavender: #e9e6f5;
+  --coral: #e98778;
+  background: var(--page-bg);
+  color: var(--ink);
+}
+
+.veloop-page .topbar {
+  border-bottom-color: var(--line);
+}
+
+.veloop-page .brand {
+  color: var(--ink);
+}
+
+.veloop-page .brand-mark {
+  background: var(--indigo);
+  color: #fff;
+}
+
+.veloop-page .brand-light {
+  color: #89889a;
+}
+
+.veloop-page .desktop-nav a {
+  color: #77788b;
+}
+
+.veloop-page .desktop-nav .nav-active {
+  color: var(--indigo);
+}
+
+.veloop-page .nav-active:after {
+  background: var(--coral);
+}
+
+.veloop-page .token-balance {
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 5px 18px rgba(49, 43, 75, 0.06);
+}
+
+.veloop-page .token-balance strong {
+  color: var(--ink);
+}
+
+.veloop-page .token-balance small {
+  color: var(--muted);
+}
+
+.veloop-page .coin-icon {
+  color: var(--indigo);
+  background: var(--lavender);
+}
+
+.veloop-page .hero .eyebrow {
+  color: var(--indigo);
+}
+
+.veloop-page .live-dot {
+  background: var(--coral);
+  box-shadow: 0 0 0 4px rgba(233, 135, 120, 0.12);
+}
+
+.veloop-page .hero h1 {
+  color: var(--ink);
+}
+
+.veloop-page .hero h1 > span {
+  color: var(--indigo);
+}
+
+.veloop-page .hero h1 svg {
+  stroke: var(--coral);
+}
+
+.veloop-page .hero-description {
+  color: #737386;
+}
+
+.veloop-page .primary-button {
+  background: var(--indigo);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 18px rgba(75, 75, 128, 0.16);
+}
+
+.veloop-page .primary-button:hover {
+  background: var(--indigo-dark);
+}
+
+.veloop-page .hero-note {
+  color: #77788b;
+}
+
+.veloop-page .hero-note svg {
+  color: #5d8d73;
+}
+
+.veloop-page .hero-meta {
+  color: #858597;
+}
+
+.veloop-page .hero-meta strong {
+  color: var(--ink);
+}
+
+.veloop-page .meta-line {
+  background: #dcd8e4;
+}
+
+.veloop-page .hero-visual:before {
+  background: radial-gradient(ellipse, rgba(180, 171, 224, 0.35), transparent 68%);
+}
+
+.veloop-page .orbit {
+  border-color: rgba(93, 87, 145, 0.14);
+}
+
+.veloop-page .hero-poster {
+  border: 5px solid #fff;
+  box-shadow: 0 20px 45px rgba(49, 43, 75, 0.18);
+}
+
+.veloop-page .poster-main {
+  box-shadow: 0 18px 50px rgba(49, 43, 75, 0.22);
+}
+
+.veloop-page .visual-caption {
+  color: #85819e;
+}
+
+.veloop-page .spark {
+  color: var(--coral);
+}
+
+.veloop-page .floating-label {
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink);
+  border: 1px solid #e8e3f0;
+  box-shadow: 0 12px 30px rgba(49, 43, 75, 0.12);
+}
+
+.veloop-page .floating-label > span {
+  background: var(--lavender);
+  color: var(--indigo);
+}
+
+.veloop-page .floating-label small {
+  color: var(--muted);
+}
+
+.veloop-page .play-guide {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(49, 43, 75, 0.045);
+}
+
+.veloop-page .guide-intro {
+  border-right-color: var(--line);
+  color: var(--ink);
+}
+
+.veloop-page .guide-intro > svg {
+  color: var(--indigo);
+}
+
+.veloop-page .guide-step > span {
+  color: var(--indigo);
+  background: var(--lavender);
+  border-color: #e3def2;
+}
+
+.veloop-page .guide-step strong {
+  color: var(--ink);
+}
+
+.veloop-page .guide-step small {
+  color: var(--muted);
+}
+
+.veloop-page .guide-arrow {
+  color: #c4bfd2;
+}
+
+.veloop-page .section-heading .eyebrow {
+  color: var(--coral);
+}
+
+.veloop-page .section-heading h2 {
+  color: var(--ink);
+}
+
+.veloop-page .section-heading h2 span {
+  color: #858397;
+}
+
+.veloop-page .collection-count {
+  color: var(--muted);
+}
+
+.veloop-page .library-toolbar {
+  border-bottom-color: var(--line);
+}
+
+.veloop-page .category {
+  color: #747489;
+  border-color: transparent;
+}
+
+.veloop-page .category:hover {
+  color: var(--indigo);
+  background: #eeecf6;
+}
+
+.veloop-page .category.active {
+  background: var(--indigo);
+  color: #fff;
+}
+
+.veloop-page .category.active span {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+.veloop-page .search {
+  background: #fff;
+  border-color: var(--line);
+  color: #858397;
+  box-shadow: 0 4px 14px rgba(49, 43, 75, 0.035);
+}
+
+.veloop-page .search input {
+  color: var(--ink);
+}
+
+.veloop-page .search:focus-within {
+  border-color: var(--indigo);
+  box-shadow: 0 0 0 3px rgba(75, 75, 128, 0.10);
+}
+
+.veloop-page .search input::placeholder {
+  color: #a09eae;
+}
+
+.veloop-page .results-line {
+  color: #858397;
+}
+
+.veloop-page .game-grid {
+  scrollbar-color: #c8c3dc #eeecf4;
+}
+
+.veloop-page .game-card {
+  background: #fff;
+  border: 1px solid #e8e4ed;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(49, 43, 75, 0.055);
+}
+
+.veloop-page .game-card:hover {
+  border-color: #c8c1e3;
+  box-shadow: 0 16px 34px rgba(49, 43, 75, 0.11);
+}
+
+.veloop-page .poster-button {
+  background: #efedf5;
+}
+
+.veloop-page .poster-hover {
+  background: rgba(47, 43, 76, 0.36);
+}
+
+.veloop-page .poster-hover > span {
+  background: #fff;
+  color: var(--indigo);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.veloop-page .card-info {
+  color: var(--ink);
+}
+
+.veloop-page .card-category {
+  color: #858397;
+}
+
+.veloop-page .card-category > span {
+  color: #527d66;
+  background: #edf5ef;
+  border-color: #dcecdf;
+}
+
+.veloop-page .card-info h3 {
+  color: var(--ink);
+}
+
+.veloop-page .card-bottom {
+  border-top-color: var(--line);
+}
+
+.veloop-page .card-bottom > span {
+  color: #4e4e68;
+}
+
+.veloop-page .card-bottom > span svg {
+  color: var(--coral);
+}
+
+.veloop-page .card-bottom small {
+  color: #9291a1;
+}
+
+.veloop-page .card-bottom button {
+  background: #efedf7;
+  border-color: #e4e0f0;
+  color: var(--indigo);
+  border-radius: 8px;
+}
+
+.veloop-page .card-bottom button:hover {
+  background: var(--indigo);
+  border-color: var(--indigo);
+  color: #fff;
+}
+
+.veloop-page .catalog-note {
+  color: #858397;
+}
+
+.veloop-page .catalog-note svg {
+  color: var(--coral);
+}
+
+.veloop-page .bottom-banner {
+  background: linear-gradient(115deg, #eeecf7 0%, #f8e9e5 100%);
+  border: 1px solid #e5dfed;
+  border-radius: 18px;
+}
+
+.veloop-page .banner-icon {
+  color: var(--indigo);
+  background: rgba(255, 255, 255, 0.7);
+  border-color: #ded9ed;
+}
+
+.veloop-page .bottom-banner p {
+  color: #8c7180;
+}
+
+.veloop-page .bottom-banner h2 {
+  color: var(--ink);
+}
+
+.veloop-page .bottom-banner h2 span {
+  color: #77758b;
+}
+
+.veloop-page .bottom-banner button {
+  background: var(--indigo);
+  color: #fff;
+}
+
+.veloop-page .bottom-banner button:hover {
+  background: var(--indigo-dark);
+}
+
+.veloop-page .page-footer {
+  border-top-color: var(--line);
+}
+
+.veloop-page .page-footer > span,
+.veloop-page .page-footer > a:last-child {
+  color: #858397;
+}
+
+.veloop-page .entry-alert {
+  color: #985b4e;
+  background: #fff1ed;
+  border-color: #f1c8bd;
+  border-radius: 12px;
+}
+
+.veloop-page .empty-state {
+  color: #858397;
+  border-color: #d8d3e2;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.veloop-page .empty-state > svg {
+  color: var(--coral);
+}
+
+.veloop-page .empty-state h3 {
+  color: var(--ink);
+}
+
+.veloop-page button:focus-visible,
+.veloop-page a:focus-visible {
+  outline-color: var(--coral);
+}
+
+@media (max-width: 760px) {
+  .veloop-page .guide-intro {
+    border-bottom-color: var(--line);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .veloop-page *,
+  .veloop-page *::before,
+  .veloop-page *::after {
+    scroll-behavior: auto;
+  }
+}
+
+
+/* =========================================================
+   VELOOP ARCADE — UNIFIED DARK GAME THEME
+   Inspired by the in-game screens: deep navy, electric blue,
+   cyan highlights, with restrained lime / amber accents.
+   ========================================================= */
+
+.veloop-page {
+  --page-bg: #050b18;
+  --surface: #0a1528;
+  --surface-raised: #0d1c33;
+  --surface-soft: #102440;
+  --ink: #f2f6ff;
+  --muted: #91a5c3;
+  --line: #1d4268;
+  --blue: #168ed0;
+  --cyan: #20d7ed;
+  --lime: #a6f542;
+  --amber: #ffbf3f;
+  --purple: #a66af5;
+  background:
+    radial-gradient(ellipse at 50% -20%, rgba(20, 103, 164, 0.24), transparent 55%),
+    radial-gradient(ellipse at 0% 45%, rgba(69, 39, 126, 0.12), transparent 42%),
+    #050b18;
+  color: var(--ink);
+}
+
+/* Header and navigation */
+.veloop-page .topbar {
+  border-bottom: 1px solid rgba(56, 139, 202, 0.22);
+}
+
+.veloop-page .brand,
+.veloop-page .brand:hover {
+  color: #f4f8ff;
+}
+
+.veloop-page .brand-mark {
+  background: linear-gradient(145deg, #b7ff4b, #72d82b);
+  color: #07111c;
+  box-shadow: 0 0 22px rgba(166, 245, 66, 0.2);
+}
+
+.veloop-page .brand-light {
+  color: #8197b7;
+}
+
+.veloop-page .desktop-nav a {
+  color: #8da4c3;
+}
+
+.veloop-page .desktop-nav a:hover,
+.veloop-page .desktop-nav .nav-active {
+  color: #f4f8ff;
+}
+
+.veloop-page .nav-active:after {
+  height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(32, 215, 237, 0.55);
+}
+
+.veloop-page .token-balance {
+  background: linear-gradient(145deg, #102440, #091629);
+  border: 1px solid #24517b;
+  box-shadow: inset 0 1px rgba(255,255,255,0.035), 0 8px 24px rgba(0,0,0,0.18);
+}
+
+.veloop-page .token-balance strong {
+  color: #f5f8ff;
+}
+
+.veloop-page .token-balance small {
+  color: #8fa5c4;
+}
+
+.veloop-page .coin-icon {
+  color: var(--lime);
+  background: rgba(166, 245, 66, 0.11);
+}
+
+/* Hero */
+.veloop-page .hero .eyebrow,
+.veloop-page .section-heading .eyebrow {
+  color: var(--cyan);
+}
+
+.veloop-page .live-dot {
+  background: var(--lime);
+  box-shadow: 0 0 0 4px rgba(166, 245, 66, 0.10), 0 0 12px rgba(166, 245, 66, 0.5);
+}
+
+.veloop-page .hero h1 {
+  color: #f4f7ff;
+  text-shadow: 0 4px 24px rgba(42, 145, 215, 0.10);
+}
+
+.veloop-page .hero h1 > span {
+  color: var(--cyan);
+  text-shadow: 0 0 22px rgba(32, 215, 237, 0.20);
+}
+
+.veloop-page .hero h1 svg {
+  stroke: var(--lime);
+}
+
+.veloop-page .hero-description {
+  color: #9aacc7;
+}
+
+.veloop-page .primary-button {
+  color: #04111e;
+  background: linear-gradient(110deg, #27e0ed, #168ed0);
+  border: 1px solid #45e9f5;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(17, 172, 213, 0.20), inset 0 1px rgba(255,255,255,0.35);
+}
+
+.veloop-page .primary-button:hover {
+  background: linear-gradient(110deg, #58eff6, #27a8e7);
+  box-shadow: 0 10px 28px rgba(17, 172, 213, 0.30);
+}
+
+.veloop-page .hero-note {
+  color: #91a5c3;
+}
+
+.veloop-page .hero-note svg {
+  color: var(--lime);
+}
+
+.veloop-page .hero-meta {
+  color: #8197b7;
+}
+
+.veloop-page .hero-meta strong {
+  color: #f1f6ff;
+}
+
+.veloop-page .meta-line {
+  background: #294565;
+}
+
+/* Game artwork stage */
+.veloop-page .hero-visual:before {
+  background: radial-gradient(ellipse, rgba(20, 154, 211, 0.20), rgba(89, 67, 168, 0.08) 42%, transparent 70%);
+}
+
+.veloop-page .orbit {
+  border-color: rgba(38, 190, 230, 0.17);
+  box-shadow: 0 0 32px rgba(20, 154, 211, 0.035);
+}
+
+.veloop-page .hero-poster {
+  border: 2px solid rgba(76, 177, 226, 0.45);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.48), 0 0 22px rgba(25, 153, 218, 0.10);
+}
+
+.veloop-page .poster-main {
+  border-color: rgba(43, 215, 237, 0.75);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.58), 0 0 28px rgba(32, 215, 237, 0.15);
+}
+
+.veloop-page .visual-caption {
+  color: #6f9dbd;
+}
+
+.veloop-page .spark {
+  color: var(--amber);
+  filter: drop-shadow(0 0 8px rgba(255, 191, 63, 0.28));
+}
+
+.veloop-page .floating-label {
+  background: linear-gradient(145deg, rgba(14, 35, 61, 0.96), rgba(8, 20, 38, 0.97));
+  color: #f1f6ff;
+  border: 1px solid #27618b;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.34), 0 0 20px rgba(32, 215, 237, 0.07);
+}
+
+.veloop-page .floating-label > span {
+  color: #07111d;
+  background: var(--lime);
+  box-shadow: 0 0 15px rgba(166, 245, 66, 0.22);
+}
+
+.veloop-page .floating-label small {
+  color: #91a5c3;
+}
+
+/* How to play strip */
+.veloop-page .play-guide {
+  background: linear-gradient(110deg, rgba(13, 29, 52, 0.96), rgba(8, 20, 38, 0.96));
+  border: 1px solid #1d4268;
+  border-radius: 15px;
+  box-shadow: inset 0 1px rgba(255,255,255,0.025), 0 14px 35px rgba(0,0,0,0.16);
+}
+
+.veloop-page .guide-intro {
+  color: #f0f5ff;
+  border-right-color: #244361;
+}
+
+.veloop-page .guide-intro > svg {
+  color: var(--cyan);
+}
+
+.veloop-page .guide-step > span {
+  color: var(--lime);
+  background: rgba(166, 245, 66, 0.08);
+  border: 1px solid rgba(166, 245, 66, 0.22);
+}
+
+.veloop-page .guide-step strong {
+  color: #eaf2ff;
+}
+
+.veloop-page .guide-step small {
+  color: #91a5c3;
+}
+
+.veloop-page .guide-arrow {
+  color: #416486;
+}
+
+/* Game library and filters */
+.veloop-page .section-heading h2 {
+  color: #f3f7ff;
+}
+
+.veloop-page .section-heading h2 span {
+  color: #8fa5c4;
+}
+
+.veloop-page .collection-count {
+  color: #91a5c3;
+}
+
+.veloop-page .library-toolbar {
+  border-bottom-color: #1b3858;
+}
+
+.veloop-page .category {
+  color: #9aacc7;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.veloop-page .category:hover {
+  color: #eff7ff;
+  background: #102440;
+  border-color: #24517b;
+}
+
+.veloop-page .category.active {
+  color: #06121f;
+  background: linear-gradient(110deg, #27ddec, #168ed0);
+  border-color: #42ddeb;
+  box-shadow: 0 4px 15px rgba(32, 215, 237, 0.13);
+}
+
+.veloop-page .category span {
+  background: rgba(4, 17, 30, 0.18);
+}
+
+.veloop-page .category.active span {
+  color: #06121f;
+  background: rgba(4, 17, 30, 0.16);
+}
+
+.veloop-page .search {
+  color: #8197b7;
+  background: #09182b;
+  border: 1px solid #1d4268;
+  box-shadow: inset 0 1px rgba(255,255,255,0.02);
+}
+
+.veloop-page .search input {
+  color: #f1f6ff;
+}
+
+.veloop-page .search input::placeholder {
+  color: #7086a5;
+}
+
+.veloop-page .search:focus-within {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(32, 215, 237, 0.10), 0 0 16px rgba(32, 215, 237, 0.07);
+}
+
+.veloop-page .results-line {
+  color: #7890b0;
+}
+
+/* Cards: match the navy panels and thin blue borders in the games */
+.veloop-page .game-card {
+  color: #eff5ff;
+  background: linear-gradient(160deg, #10213a 0%, #091629 100%);
+  border: 1px solid #21496e;
+  border-radius: 13px;
+  box-shadow: 0 10px 26px rgba(0,0,0,0.22), inset 0 1px rgba(255,255,255,0.025);
+  overflow: hidden;
+}
+
+.veloop-page .game-card:hover {
+  border-color: #28b9df;
+  box-shadow: 0 15px 34px rgba(0,0,0,0.30), 0 0 20px rgba(32, 215, 237, 0.10);
+  transform: translateY(-4px);
+}
+
+.veloop-page .poster-button {
+  background: #071426;
+}
+
+.veloop-page .poster-hover {
+  background: rgba(3, 12, 25, 0.60);
+}
+
+.veloop-page .poster-hover > span {
+  color: #04111e;
+  background: linear-gradient(110deg, #27e0ed, #168ed0);
+  box-shadow: 0 0 20px rgba(32, 215, 237, 0.28);
+}
+
+.veloop-page .card-info {
+  color: #eff5ff;
+}
+
+.veloop-page .card-category {
+  color: #8fa5c4;
+}
+
+.veloop-page .card-category > span {
+  color: var(--lime);
+  background: rgba(166, 245, 66, 0.08);
+  border: 1px solid rgba(166, 245, 66, 0.20);
+}
+
+.veloop-page .card-info h3 {
+  color: #f4f7ff;
+}
+
+.veloop-page .card-bottom {
+  border-top-color: #1c3a5b;
+}
+
+.veloop-page .card-bottom > span {
+  color: #c6d6ed;
+}
+
+.veloop-page .card-bottom > span svg {
+  color: var(--amber);
+}
+
+.veloop-page .card-bottom small {
+  color: #8298b8;
+}
+
+.veloop-page .card-bottom button {
+  color: #04111e;
+  background: linear-gradient(110deg, #27ddec, #168ed0);
+  border: 1px solid #36d5e9;
+  border-radius: 8px;
+}
+
+.veloop-page .card-bottom button:hover {
+  color: #06121f;
+  background: linear-gradient(110deg, #b7ff4b, #77dc31);
+  border-color: #b7ff4b;
+}
+
+/* Bottom callout and footer */
+.veloop-page .catalog-note {
+  color: #8298b8;
+}
+
+.veloop-page .catalog-note svg {
+  color: var(--cyan);
+}
+
+.veloop-page .bottom-banner {
+  background:
+    radial-gradient(ellipse at 90% 0%, rgba(27, 147, 208, 0.20), transparent 55%),
+    linear-gradient(115deg, #102440, #111b37 60%, #1b1940);
+  border: 1px solid #28527a;
+  border-radius: 16px;
+  box-shadow: inset 0 1px rgba(255,255,255,0.035), 0 14px 35px rgba(0,0,0,0.20);
+}
+
+.veloop-page .banner-icon {
+  color: var(--amber);
+  background: rgba(255, 191, 63, 0.08);
+  border-color: rgba(255, 191, 63, 0.24);
+}
+
+.veloop-page .bottom-banner p {
+  color: #91a5c3;
+}
+
+.veloop-page .bottom-banner h2 {
+  color: #f3f7ff;
+}
+
+.veloop-page .bottom-banner h2 span {
+  color: var(--cyan);
+}
+
+.veloop-page .bottom-banner button {
+  color: #06121f;
+  background: linear-gradient(110deg, #27e0ed, #168ed0);
+  box-shadow: 0 0 18px rgba(32, 215, 237, 0.15);
+}
+
+.veloop-page .bottom-banner button:hover {
+  background: linear-gradient(110deg, #b7ff4b, #77dc31);
+}
+
+.veloop-page .page-footer {
+  border-top-color: #1c3a5b;
+}
+
+.veloop-page .page-footer > span,
+.veloop-page .page-footer > a:last-child {
+  color: #7890b0;
+}
+
+.veloop-page .entry-alert {
+  color: #ffd5b5;
+  background: rgba(125, 54, 40, 0.20);
+  border-color: rgba(255, 153, 95, 0.36);
+}
+
+.veloop-page .empty-state {
+  color: #91a5c3;
+  border-color: #28527a;
+  background: rgba(10, 25, 45, 0.68);
+}
+
+.veloop-page .empty-state > svg {
+  color: var(--cyan);
+}
+
+.veloop-page .empty-state h3 {
+  color: #f3f7ff;
+}
+
+.veloop-page button:focus-visible,
+.veloop-page a:focus-visible,
+.veloop-page input:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .veloop-page .guide-intro {
+    border-bottom-color: #244361;
+  }
+}
